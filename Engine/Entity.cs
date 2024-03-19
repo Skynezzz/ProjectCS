@@ -11,7 +11,12 @@ namespace Engine.Entities
     public class Entity
     {
 
-        private Dictionary<string, Components.Component> componentsDict = new Dictionary<string, Components.Component>();
+        private Dictionary<string, Components.Component> componentsDict;
+
+        public Entity()
+        {
+            componentsDict = new Dictionary<string, Components.Component>();
+        }
 
         public void AddComponent(string componentName, Components.Component component)
         {
@@ -40,24 +45,20 @@ namespace Engine.Entities
         {
             private Entity? entity;
 
-            public Component()
-            {
-                entity = null;
-            }
-
-            public void AttatchEntity(Entity pEntity)
+            public Component(Entity pEntity)
             {
                 entity = pEntity;
             }
 
+
             public virtual void Update() { }
         }
 
-        public class Drawable
+        public class Drawable : Component
         {
             private string shape;
 
-            public Drawable(string pShape = "")
+            public Drawable(Entity pEntity, string pShape = "") : base(pEntity)
             {
                 shape = pShape;
             }

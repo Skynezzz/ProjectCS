@@ -2,7 +2,7 @@
 using Engine.Entities;
 using Engine.Entities.Components;
 
-class Program
+class Sakimon
 {
     static void Main(string[] args)
     {
