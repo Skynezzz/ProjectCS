@@ -45,11 +45,12 @@ namespace Engine.Entities
         {
             private Entity? entity;
 
-            public Component(Entity pEntity)
+            public Component() { }
+
+            public void AttatchEntity(Entity pEntity)
             {
                 entity = pEntity;
             }
-
 
             public virtual void Update() { }
         }
@@ -58,7 +59,7 @@ namespace Engine.Entities
         {
             private string shape;
 
-            public Drawable(Entity pEntity, string pShape = "") : base(pEntity)
+            public Drawable(Entity pEntity, string pShape = "") : base()
             {
                 shape = pShape;
             }
