@@ -2,15 +2,16 @@ using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
 
-class Player : Entity
+class Pokemons : Entity
 {
-    Player()
+    Pokemons()
     {
+
         Drawable component = new Drawable();
         this.AddComponent("Drawable", component);
     }
 
-    ~Player()
+    ~Pokemons()
     {
 
     }
