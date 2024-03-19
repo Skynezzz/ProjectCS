@@ -11,31 +11,30 @@ namespace Engine.Entities
     public class Entity
     {
 
-        private Dictionary<string, Components.Component> componentsDict;
+        private List<Components.Component> componentsList;
 
         public Entity()
         {
-            componentsDict = new Dictionary<string, Components.Component>();
+            componentsList = new List<Components.Component>();
         }
 
-        public void AddComponent(string componentName, Components.Component component)
+        public void AddComponent(Components.Component component)
         {
             component.AttatchEntity(this);
-            componentsDict.Add(componentName, component);
+            componentsList.Add(component);
         }
 
         public void Update()
         {
-            foreach (var component in componentsDict)
+            foreach (var component in componentsList)
             {
-                component.Value.Update();
+                component.Update();
             }
         }
 
-        public Components.Component? GetComponentByName(string name)
+        public T? GetComponent<T>() where T : Components.Component
         {
-            if (componentsDict.ContainsKey(name)) return componentsDict[name];
-            return null;
+            return componentsList.FirstOrDefault(c => c.GetType() == typeof(T)) as T;
         }
     }
 
@@ -72,6 +71,22 @@ namespace Engine.Entities
             public string GetShape()
             {
                 return shape;
+            }
+        }
+
+        public class Position : Component
+        {
+            private Vector2 _position { get; set; }
+
+            public Vector2 position
+            {
+                get { return _position; }
+                set { _position = value; }
+            }
+
+        public Position()
+            {
+                position = new Vector2(0, 0);
             }
         }
     }

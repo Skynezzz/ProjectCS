@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Engine.Entities;
+using Engine.Entities.Components;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Numerics;
@@ -9,7 +11,7 @@ namespace Engine
     public class Game
     {
         private Vector2 gameSize;
-        private List<char> gameGrid;
+        private List<List<char>> gameGrid;
 
         private Dictionary<string, Event> events;
         private List<Entities.Entity> entities;
@@ -65,7 +67,7 @@ namespace Engine
             {
                 if (iEntity != null)
                 {
-                    //iEntity.GetShape();
+                    Draw(iEntity);
                 }
             }
         }
@@ -80,6 +82,19 @@ namespace Engine
         public void ClearEntities()
         {
             entities.Clear();
+        }
+
+        private void Draw(Entity entity)
+        {
+            if (entity == null) return;
+            Drawable? drawable = entity.GetComponent<Drawable>();
+            if (drawable == null) return;
+            string shape = drawable.GetShape();
+            shape.Split('\n');
+
+            Position? position = entity.GetComponent<Position>();
+
+            gameGrid[]
         }
     }
 

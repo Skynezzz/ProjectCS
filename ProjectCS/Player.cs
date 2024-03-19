@@ -7,7 +7,7 @@ class Player : Entity
     Player()
     {
         Drawable component = new Drawable("t");
-        this.AddComponent("Drawable", component);
+        this.AddComponent(component);
     }
 
     ~Player()
