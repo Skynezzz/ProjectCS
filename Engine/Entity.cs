@@ -59,7 +59,7 @@ namespace Engine.Entities
         {
             private string shape;
 
-            public Drawable(Entity pEntity, string pShape = "") : base()
+            public Drawable(string pShape = "") : base()
             {
                 shape = pShape;
             }
