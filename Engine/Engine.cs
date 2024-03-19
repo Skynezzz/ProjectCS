@@ -16,7 +16,15 @@ namespace Engine
 
         public Game()
         {
-            gameSize = new Vector2(120, 30);
+
+            Console.BackgroundColor = ConsoleColor.Cyan;
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.CursorVisible = false;
+            Console.SetWindowPosition(0, 0);
+
+            gameSize = new Vector2(Console.LargestWindowWidth, Console.LargestWindowHeight);
+
+            Console.WriteLine(gameSize.ToString());
 
             events = new Dictionary<string, Event>();
             entities = new List<Entities.Entity>();
@@ -52,11 +60,12 @@ namespace Engine
 
         private void Display()
         {
+            Console.Clear();
             foreach (var iEntity in entities)
             {
                 if (iEntity != null)
                 {
-                    iEntity.GetShape();
+                    //iEntity.GetShape();
                 }
             }
         }

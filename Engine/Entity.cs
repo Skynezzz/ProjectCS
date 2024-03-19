@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,20 +11,26 @@ namespace Engine.Entities
     public class Entity
     {
 
-        private List<Components.Component> componentsList = new List<Components.Component>();
+        private Dictionary<string, Components.Component> componentsDict = new Dictionary<string, Components.Component>();
 
-        public void AddComponent(Components.Component component)
+        public void AddComponent(string componentName, Components.Component component)
         {
             component.AttatchEntity(this);
-            componentsList.Add(component);
+            componentsDict.Add(componentName, component);
         }
 
         public void Update()
         {
-            foreach (var component in componentsList)
+            foreach (var component in componentsDict)
             {
-                component.Update();
+                component.Value.Update();
             }
+        }
+
+        public Components.Component? GetComponentByName(string name)
+        {
+            if (componentsDict.ContainsKey(name)) return componentsDict[name];
+            return null;
         }
     }
 
