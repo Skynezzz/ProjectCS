@@ -1,13 +1,13 @@
-namespace Attacks
+namespace Sakimon
 {
-    public class Attack
+    public readonly struct Attack
     {
-        char attackName;
-        int attackType;
-        int attackPp;
-        int attackDmg;
+        public string attackName { get; }
+        public int attackType { get; }
+        public int attackPp { get; }
+        public int attackDmg { get; }
 
-        Attack(char pAttackName, int pAttackType, int pAttackPp, int pAttackDmg)
+        public Attack(string pAttackName, int pAttackType, int pAttackPp, int pAttackDmg)
         {
             attackName = pAttackName;
             attackType = pAttackType;

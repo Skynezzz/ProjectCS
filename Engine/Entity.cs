@@ -84,10 +84,30 @@ namespace Engine.Entities
                 set { _position = value; }
             }
 
-        public Position()
+            public Position()
             {
                 position = new Vector2(0, 0);
             }
+        }
+
+        public class AliveEntity : Component
+        {
+            private int maxHealth;
+            private float health;
+
+            public AliveEntity(int pMaxHealth) : base()
+            {
+                maxHealth = pMaxHealth;
+                health = maxHealth;
+            }
+
+            public void TakeDamage(int damage)
+            {
+                health -= damage;
+            }
+
+            public int GetMaxHealth() { return maxHealth; }
+            public float GetHealth() { return health; }
         }
     }
 }

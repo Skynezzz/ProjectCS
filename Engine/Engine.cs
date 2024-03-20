@@ -2,6 +2,7 @@
 using Engine.Entities.Components;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -10,21 +11,36 @@ namespace Engine
 {
     public class Game
     {
+        private bool running;
+
         private Vector2 gameSize;
         private List<List<char>> gameGrid;
+
+        int frameDelay;
+        Stopwatch gameTimer;
 
         private Dictionary<string, Event> events;
         private List<Entities.Entity> entities;
 
         public Game()
         {
-
-            Console.BackgroundColor = ConsoleColor.Cyan;
-            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.CursorVisible = false;
-            Console.SetWindowPosition(0, 0);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                // Code spécifique à Windows
+                Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                Console.SetWindowPosition(0, 0);
+            }
+
+            running = true;
 
             gameSize = new Vector2(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            gameGrid = new List<List<char>>();
+
+            frameDelay = 1000;
+            gameTimer = new();
 
             Console.WriteLine(gameSize.ToString());
 
@@ -36,9 +52,14 @@ namespace Engine
 
         public void Run()
         {
-            Event();
-            Update();
-            Display();
+            while (running)
+            {
+                gameTimer.Restart();
+                Event();
+                Update();
+                Display();
+                FpsManager();
+            }
         }
 
         private void Event()
@@ -70,8 +91,28 @@ namespace Engine
                     Draw(iEntity);
                 }
             }
+            Render();
         }
 
+        private void Render()
+        {
+            foreach(var row in gameGrid)
+            {
+                Console.WriteLine($"{row.ToString()}");
+            }
+        }
+
+        private void FpsManager()
+        {
+            gameTimer.Stop();
+            TimeSpan elapsedTime = gameTimer.Elapsed;
+            int remainingTime = frameDelay - (int)elapsedTime.TotalMilliseconds;
+
+            if (remainingTime > 0)
+            {
+                Thread.Sleep(remainingTime);
+            }
+        }
         // ENTITIES MANAGEMENT //
 
         public void AddEntity(Entities.Entity entity)
@@ -94,7 +135,7 @@ namespace Engine
 
             Position? position = entity.GetComponent<Position>();
 
-            gameGrid[]
+            //gameGrid[]
         }
     }
 
