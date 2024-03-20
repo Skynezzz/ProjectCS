@@ -23,8 +23,12 @@ namespace Sakimon
 
         private void InitAttacks()
         {
-            attackList.Add("Vive Attaque", new("Vive Attaque", 0, 10, 20));
-            attackList.Add("Queue de Fer", new("Queue de Fer", 1, 15, 40));
+            using (StreamReader attacks = new StreamReader("../../../Attacks.txt"))
+            {
+
+            }
+            attackList.Add("Vive Attaque", new("Vive Attaque", 5, 30, 40));
+            attackList.Add("Queue de Fer", new("Queue de Fer", 11, 20, 100));
         }
 
 
@@ -32,6 +36,8 @@ namespace Sakimon
         {
             Sakimon sakimon = new();
             sakimon.game.Run();
+            //Map a = new Map();
+            //a.DrawMap();
 
         }
 
