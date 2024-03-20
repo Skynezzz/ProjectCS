@@ -1,0 +1,51 @@
+TCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCC                        TCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                        CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                        CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                  HCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             HCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     TCCC
+CCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     CCCC
+CCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     CCCC
+TCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     TCCC
+CCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     CCCC
+CCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     CCCC
+TCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     TCCC
+CCCC                                  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                                             CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                     CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                              LCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    CCCC
+TCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    TCCC
+CCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    CCCC
+CCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    CCCC
+TCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    TCCC
+CCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    CCCC
+CCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    CCCC
+TCCC                                                                                                                              CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                                    TCCC
+CCCC                                                                                                                                                                                                CCCC
+CCCC                                                                                                                                                                                                CCCC
+TCCC                                                                                                                                                                                                TCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+TCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            TCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+TCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            TCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+CCCC                                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                            CCCC
+TCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCCTCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC

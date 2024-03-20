@@ -1,0 +1,29 @@
+NTypes :
+
+1 Feu
+2 Plante
+3 Eau
+4 Normal
+5 Electrik
+6 Psy
+7 Tenebre
+8 Poison
+9 Spectre
+10 Glace
+11 Acier
+12 Insecte
+13 Vol
+14 Sol
+15 Roche
+16 Combat
+17 Dragon
+18 Fée
+
+Lettre Map :
+
+T : Arbre (4x3)
+H : Maison (30x8)
+L : Labo (30x8)
+B : Haute herbes
+s : Sol
+W : Water
