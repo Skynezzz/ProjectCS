@@ -24,13 +24,7 @@ namespace Engine.Entities
             componentsList.Add(component);
         }
 
-        public void Update()
-        {
-            foreach (var component in componentsList)
-            {
-                component.Update();
-            }
-        }
+        public virtual void Update() { }
 
         public T? GetComponent<T>() where T : Components.Component
         {
@@ -76,17 +70,19 @@ namespace Engine.Entities
 
         public class Position : Component
         {
-            private Vector2 _position { get; set; }
+            public Vector2 position;
 
-            public Vector2 position
-            {
-                get { return _position; }
-                set { _position = value; }
-            }
+            public Vector2 size;
 
             public Position()
             {
                 position = new Vector2(0, 0);
+                size = new Vector2(0, 0);
+            }
+
+            public void SetPosition(float x, float y)
+            {
+                position = new Vector2(x, y);
             }
         }
 

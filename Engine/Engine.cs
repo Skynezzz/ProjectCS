@@ -6,15 +6,15 @@ using System.Diagnostics;
 using System.Net;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-
+// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //
 namespace Engine
 {
     public class Game
     {
-        private bool running;
+        private static bool running;
 
         private Vector2 gameSize;
-        private List<List<char>> gameGrid;
+        private static char[,] gameGrid;
 
         int frameDelay;
         Stopwatch gameTimer;
@@ -22,30 +22,47 @@ namespace Engine
         private Dictionary<string, Event> events;
         private List<Entities.Entity> entities;
 
+        public static ConsoleKeyInfo ConsoleKeyInfo { get; set; }
+
         public Game()
         {
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.CursorVisible = false;
+            gameSize = new Vector2(200, 50);
+
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 // Code spécifique à Windows
-                Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                Console.SetWindowSize((int)gameSize.X, (int)gameSize.Y + 1);
                 Console.SetWindowPosition(0, 0);
             }
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.CursorVisible = false;
 
             running = true;
 
-            gameSize = new Vector2(Console.LargestWindowWidth, Console.LargestWindowHeight);
-            gameGrid = new List<List<char>>();
+            gameGrid = new char[(int)gameSize.Y, (int)gameSize.X];
+            ClearGrid();
 
             frameDelay = 1000;
             gameTimer = new();
 
-            Console.WriteLine(gameSize.ToString());
-
             events = new Dictionary<string, Event>();
             entities = new List<Entities.Entity>();
+        }
+
+        // STATIC //
+
+        public static bool IsEmptyCase(int x, int y)
+        {
+            return gameGrid[x, y] == ' ';
+        }
+
+        private static async void EventListener()
+        {
+            while (running)
+            {
+                Game.consoleKeyInfo = Console.ReadKey();
+            }
         }
 
         // GAME RUN //
@@ -58,7 +75,7 @@ namespace Engine
                 Event();
                 Update();
                 Display();
-                FpsManager();
+                FramesManager();
             }
         }
 
@@ -83,7 +100,7 @@ namespace Engine
 
         private void Display()
         {
-            Console.Clear();
+            ClearGrid();
             foreach (var iEntity in entities)
             {
                 if (iEntity != null)
@@ -94,15 +111,32 @@ namespace Engine
             Render();
         }
 
-        private void Render()
+        private void ClearGrid()
         {
-            foreach(var row in gameGrid)
+            for (int i = 0; i < (int)gameSize.Y; i++)
             {
-                Console.WriteLine($"{row.ToString()}");
+                for (int j = 0; j < (int)gameSize.X; j++)
+                {
+                    gameGrid[i, j] = ' ';
+                }
             }
         }
 
-        private void FpsManager()
+        private void Render()
+        {
+            string stringToDraw = "";
+            for (int i = 0; i < (int)gameSize.Y; i++)
+            {
+                for (int j = 0; j < (int)gameSize.X; j++)
+                {
+                    stringToDraw += gameGrid[i, j];
+                }
+            }
+            Console.WriteLine(stringToDraw);
+            Console.SetCursorPosition(0, 0);
+        }
+
+        private void FramesManager()
         {
             gameTimer.Stop();
             TimeSpan elapsedTime = gameTimer.Elapsed;
@@ -131,11 +165,26 @@ namespace Engine
             Drawable? drawable = entity.GetComponent<Drawable>();
             if (drawable == null) return;
             string shape = drawable.GetShape();
-            shape.Split('\n');
+            string[] shapeToDraw = shape.Split('\n');
 
             Position? position = entity.GetComponent<Position>();
+            Vector2 drawPos;
+            if (position == null) drawPos = new(0, 0);
+            else drawPos = position.position;
+            
 
-            //gameGrid[]
+
+
+            for (int i = 0; i < shapeToDraw.Length; i++)
+            {
+                for (int j = 0; j < shapeToDraw[i].Length; j++)
+                {
+                    if ((int)drawPos.Y + i >= 0 && (int)drawPos.Y + i < gameSize.Y   &&   (int)drawPos.X + j >= 0 && (int)drawPos.X + j < gameSize.X)
+                    {
+                        if (shapeToDraw[i][j] != ' ') gameGrid[(int)drawPos.Y + i, (int)drawPos.X + j] = shapeToDraw[i][j];
+                    }
+                }
+            }
         }
     }
 

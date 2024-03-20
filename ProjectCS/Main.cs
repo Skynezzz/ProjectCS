@@ -15,6 +15,9 @@ namespace Sakimon
 
             InitAttacks();
             Pokemon pikachu = new();
+            game.AddEntity(pikachu);
+            Player player = new();
+            game.AddEntity(player);
             if (attackList.ContainsKey("Queue de Fer"))
             {
                 pikachu.attackList.Add(attackList.GetValueOrDefault("Queue de Fer"));

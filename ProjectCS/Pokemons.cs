@@ -13,7 +13,8 @@ namespace Sakimon.Pokemons
         {
             attackList = new List<Attack?>(4);
 
-            AddComponent(new Drawable());
+            AddComponent(new Drawable("O O\n | \n | "));
+            AddComponent(new Position());
             AddComponent(new AliveEntity(100));
         }
 
