@@ -27,18 +27,10 @@ namespace Sakimon
 
         private void InitAttacks()
         {
-            string textAttack = Utils.GetTextFromFile("Attacks.txt");
-            string[] attacks = textAttack.Split('\n');
-            foreach (string attack in attacks)
+            Dictionary<string, List<string>> dictAttack = Utils.GetDictFromFile("Attacks.txt");
+            foreach (var attack in dictAttack)
             {
-                string[] props = attack.Split(';');
-
-                string name = props[0];
-                int type = int.Parse(props[1]);
-                int pp = int.Parse(props[2]);
-                int dmg = int.Parse(props[3]);
-
-                attackList.Add(name, new Attack(name, type, pp, dmg));
+                attackList.Add(attack.Key, new Attack(attack.Key, int.Parse(attack.Value[0]), int.Parse(attack.Value[1]), int.Parse(attack.Value[2])));
             }
         }
 

@@ -1,5 +1,5 @@
-Vive Attaque;5;30;40
-Queue de Fer;11;15;100
-Pistolet à Eau;3;25;40
-Flammèche;1;25;40
-Fouet Lianes;2;25;45
+Vive Attaque:5,30,40
+Queue de Fer:11,15,100
+Pistolet à Eau:3,25,40
+Flammèche:1,25,40
+Fouet Lianes:2,25,45
