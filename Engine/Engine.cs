@@ -163,7 +163,7 @@ namespace Engine
             Vector2 drawPos;
             if (position == null) drawPos = new(0, 0);
             else drawPos = position.position;
-            
+
 
 
 
@@ -171,7 +171,7 @@ namespace Engine
             {
                 for (int j = 0; j < shapeToDraw[i].Length; j++)
                 {
-                    if ((int)drawPos.Y + i >= 0 && (int)drawPos.Y + i < gameSize.Y   &&   (int)drawPos.X + j >= 0 && (int)drawPos.X + j < gameSize.X)
+                    if ((int)drawPos.Y + i >= 0 && (int)drawPos.Y + i < gameSize.Y && (int)drawPos.X + j >= 0 && (int)drawPos.X + j < gameSize.X)
                     {
                         if (shapeToDraw[i][j] != ' ') gameGrid[(int)drawPos.Y + i, (int)drawPos.X + j] = shapeToDraw[i][j];
                     }
@@ -182,7 +182,7 @@ namespace Engine
 
         public void AddEntity(Entities.Entity entity)
         {
-            entities.Add(entity); 
+            entities.Add(entity);
         }
 
         public void ClearEntities()

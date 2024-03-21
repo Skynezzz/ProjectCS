@@ -19,7 +19,7 @@ namespace Engine.Utils
             return returnString;
         }
 
-        public static Dictionary<string, List<string>> GetDictionaryFromFile(string path)
+        public static Dictionary<string, List<string>> GetDictFromFile(string path)
         {
             Dictionary<string, List<string>> returnDict = new Dictionary<string, List<string>>();
 
