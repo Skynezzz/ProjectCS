@@ -6,23 +6,20 @@ using System.Diagnostics;
 using System.Net;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //
+
 namespace Engine
 {
     public class Game
     {
         private static bool running;
-        public static Dictionary<ConsoleKeyInfo, bool> eventList;
+        public static ConsoleKey? inputConsoleKey;
         private static char[,] gameGrid;
+        public static Entity map;
+        private static List<Event> events;
 
         private Vector2 gameSize;
 
-        int frameDelay;
-        Stopwatch gameTimer;
-
-        private Dictionary<string, Event> events;
         private List<Entities.Entity> entities;
-
 
         public Game()
         {
@@ -43,11 +40,8 @@ namespace Engine
             gameGrid = new char[(int)gameSize.Y, (int)gameSize.X];
             ClearGrid();
 
-            frameDelay = 1000;
-            gameTimer = new();
-
-            eventList = new Dictionary<ConsoleKeyInfo, bool>();
-            events = new Dictionary<string, Event>();
+            inputConsoleKey = null;
+            events = new List<Event>();
             entities = new List<Entities.Entity>();
         }
 
@@ -55,15 +49,8 @@ namespace Engine
 
         public static bool IsEmptyCase(int x, int y)
         {
-            return gameGrid[x, y] == ' ';
-        }
-
-        public async void EventListener()
-        {
-            while (running)
-            {
-                Game.eventList.Add(Console.ReadKey(true), true);
-            }
+            //return gameGrid[x, y] == ' ';
+            return true;
         }
 
         // GAME RUN //
@@ -72,12 +59,10 @@ namespace Engine
         {
             while (running)
             {
-                gameTimer.Restart();
                 Event();
                 Update();
                 Display();
-                eventList[Console.ReadKey(true)] = true;
-                FramesManager();
+                inputConsoleKey = Console.ReadKey(true).Key;
             }
         }
 
@@ -85,7 +70,7 @@ namespace Engine
         {
             foreach (var iEvent in events)
             {
-                iEvent.Value.Update();
+                iEvent.Update();
             }
         }
 
@@ -113,17 +98,7 @@ namespace Engine
             Render();
         }
 
-        private void FramesManager()
-        {
-            gameTimer.Stop();
-            TimeSpan elapsedTime = gameTimer.Elapsed;
-            int remainingTime = frameDelay - (int)elapsedTime.TotalMilliseconds;
 
-            if (remainingTime > 0)
-            {
-                Thread.Sleep(remainingTime);
-            }
-        }
         // DISPLAY //
 
         private void ClearGrid()
@@ -178,7 +153,13 @@ namespace Engine
                 }
             }
         }
+
         // ENTITIES MANAGEMENT //
+
+        public static void AddEvent(Event pEvent)
+        {
+            events.Add(pEvent);
+        }
 
         public void AddEntity(Entities.Entity entity)
         {
@@ -195,13 +176,8 @@ namespace Engine
 
     public class Event
     {
-        public Event(List<ConsoleKeyInfo> input)
-        {
-            foreach (ConsoleKeyInfo key in input)
-            {
-                Game.eventList[key] = false;
-            }
-        }
+        public Event() { }
+
         public virtual void Update() { }
     }
 }

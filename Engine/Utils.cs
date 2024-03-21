@@ -19,6 +19,23 @@ namespace Engine.Utils
             return returnString;
         }
 
+        public static List<string[]> GetListFromFile(string path)
+        {
+            List<string[]> returnList = new List<string[]>();
+
+            string textFromFile = GetTextFromFile(path);
+
+            string[] rows = textFromFile.Split('\n');
+
+            foreach (string row in rows)
+            {
+                string[] rawList = row.Split(',');
+
+                returnList.Add(rawList);
+            }
+            return returnList;
+        }
+
         public static Dictionary<string, List<string>> GetDictFromFile(string path)
         {
             Dictionary<string, List<string>> returnDict = new Dictionary<string, List<string>>();
