@@ -12,9 +12,10 @@ namespace Engine
     public class Game
     {
         private static bool running;
+        public static Dictionary<ConsoleKeyInfo, bool> eventList;
+        private static char[,] gameGrid;
 
         private Vector2 gameSize;
-        private static char[,] gameGrid;
 
         int frameDelay;
         Stopwatch gameTimer;
@@ -22,7 +23,6 @@ namespace Engine
         private Dictionary<string, Event> events;
         private List<Entities.Entity> entities;
 
-        public static ConsoleKeyInfo ConsoleKeyInfo { get; set; }
 
         public Game()
         {
@@ -46,6 +46,7 @@ namespace Engine
             frameDelay = 1000;
             gameTimer = new();
 
+            eventList = new Dictionary<ConsoleKeyInfo, bool>();
             events = new Dictionary<string, Event>();
             entities = new List<Entities.Entity>();
         }
@@ -57,11 +58,11 @@ namespace Engine
             return gameGrid[x, y] == ' ';
         }
 
-        private static async void EventListener()
+        public async void EventListener()
         {
             while (running)
             {
-                Game.consoleKeyInfo = Console.ReadKey();
+                Game.eventList.Add(Console.ReadKey(true), true);
             }
         }
 
@@ -75,6 +76,7 @@ namespace Engine
                 Event();
                 Update();
                 Display();
+                eventList[Console.ReadKey(true)] = true;
                 FramesManager();
             }
         }
@@ -111,6 +113,19 @@ namespace Engine
             Render();
         }
 
+        private void FramesManager()
+        {
+            gameTimer.Stop();
+            TimeSpan elapsedTime = gameTimer.Elapsed;
+            int remainingTime = frameDelay - (int)elapsedTime.TotalMilliseconds;
+
+            if (remainingTime > 0)
+            {
+                Thread.Sleep(remainingTime);
+            }
+        }
+        // DISPLAY //
+
         private void ClearGrid()
         {
             for (int i = 0; i < (int)gameSize.Y; i++)
@@ -134,29 +149,6 @@ namespace Engine
             }
             Console.WriteLine(stringToDraw);
             Console.SetCursorPosition(0, 0);
-        }
-
-        private void FramesManager()
-        {
-            gameTimer.Stop();
-            TimeSpan elapsedTime = gameTimer.Elapsed;
-            int remainingTime = frameDelay - (int)elapsedTime.TotalMilliseconds;
-
-            if (remainingTime > 0)
-            {
-                Thread.Sleep(remainingTime);
-            }
-        }
-        // ENTITIES MANAGEMENT //
-
-        public void AddEntity(Entities.Entity entity)
-        {
-            entities.Add(entity); 
-        }
-
-        public void ClearEntities()
-        {
-            entities.Clear();
         }
 
         private void Draw(Entity entity)
@@ -186,12 +178,30 @@ namespace Engine
                 }
             }
         }
+        // ENTITIES MANAGEMENT //
+
+        public void AddEntity(Entities.Entity entity)
+        {
+            entities.Add(entity); 
+        }
+
+        public void ClearEntities()
+        {
+            entities.Clear();
+        }
     }
 
     // EVENTS MANAGEMENT //
 
     public class Event
     {
+        public Event(List<ConsoleKeyInfo> input)
+        {
+            foreach (ConsoleKeyInfo key in input)
+            {
+                Game.eventList[key] = false;
+            }
+        }
         public virtual void Update() { }
     }
 }

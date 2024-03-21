@@ -1,26 +1,26 @@
 using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
+using Engine.Utils;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Sakimon.Entities.player
+namespace Sakimon.Entities.Player
 {
     class Player : Entity
     {
+        PlayerBinds eBinds;
         public const int UP = 0;
         public const int DOWN = 1;
         public const int LEFT = 2;
         public const int RIGHT = 3;
+
         public Player()
         {
-            this.AddComponent(new Drawable(" o \n-O-\n/ \\"));
+            AddComponent(new Drawable(" o \n-O-\n/ \\"));
             AddComponent(new Position());
-        }
 
-        ~Player()
-        {
-
+            string option = Utils.GetTextFromFile("Options.txt");
         }
 
         public override void Update() 
@@ -56,19 +56,26 @@ namespace Sakimon.Entities.player
 
     class PlayerBinds : Event
     {
-        private Dictionary<ConsoleKey, int> binds;
-        public PlayerBinds()
+        Player ownPlayer;
+        private Dictionary<ConsoleKeyInfo, int> binds;
+
+        public PlayerBinds(Player pOwnPlayer, List<ConsoleKeyInfo> bindsFromSettings) : base(bindsFromSettings)
         {
+            ownPlayer = pOwnPlayer;
+
             binds = new();
-            binds.Add(ConsoleKey.Z, Player.UP);
-            binds.Add(ConsoleKey.S, Player.DOWN);
-            binds.Add(ConsoleKey.Q, Player.LEFT);
-            binds.Add(ConsoleKey.D, Player.RIGHT);
+            binds.Add(bindsFromSettings[0], Player.UP);
+            binds.Add(bindsFromSettings[1], Player.DOWN);
+            binds.Add(bindsFromSettings[2], Player.LEFT);
+            binds.Add(bindsFromSettings[3], Player.RIGHT);
         }
 
-        public void Run()
+        public override void Update()
         {
-
+            foreach (ConsoleKeyInfo key in binds.Keys)
+            {
+                if (Game.eventList[key]) ownPlayer.move(binds[key]);
+            }
         }
     }
 }

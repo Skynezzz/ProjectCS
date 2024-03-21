@@ -3,7 +3,7 @@ using Engine.Entities;
 using Engine.Entities.Components;
 using Sakimon;
 
-namespace Sakimon.Pokemons
+namespace Sakimon.Entities.Pokemons
 {
     class Pokemon : Entity
     {
