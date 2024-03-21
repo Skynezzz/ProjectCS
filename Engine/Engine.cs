@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //// EVENT LISTENER //
+
 namespace Engine
 {
     public class Game

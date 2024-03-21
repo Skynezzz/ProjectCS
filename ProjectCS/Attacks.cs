@@ -1,4 +1,4 @@
-namespace Sakimon
+namespace Sakimon.Entities.Attacks
 {
     public readonly struct Attack
     {

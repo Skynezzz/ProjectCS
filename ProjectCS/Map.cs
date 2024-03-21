@@ -1,49 +1,55 @@
 using System;
+using Engine.Entities;
 
-class Map
+namespace Sakimon.Entities.Map
 {
-    public void DrawMap()
+    class Map : Entity
     {
-        // Définir les caractères pour les différents éléments de la carte
-        char playerChar = '@';
-        char wallChar = ' ';
-        char groundChar = ' ';
-
-        // Définir les couleurs pour les différents éléments de la carte
-        ConsoleColor playerColor = ConsoleColor.Red;
-        ConsoleColor wallColor = ConsoleColor.Gray;
-        ConsoleColor groundColor = ConsoleColor.Green;
-
-        // Définir la taille de la carte
-        int mapWidth = Console.LargestWindowWidth;
-        int mapHeight = Console.LargestWindowHeight;
-
-        // Dessiner la carte
-        for (int y = 0; y < mapHeight; y++)
+        public void DrawMap()
         {
-            for (int x = 0; x < mapWidth; x++)
+            // Définir les caractères pour les différents éléments de la carte
+            char playerChar = '@';
+            char wallChar = ' ';
+            char groundChar = ' ';
+
+            // Définir les couleurs pour les différents éléments de la carte
+            ConsoleColor playerColor = ConsoleColor.Red;
+            ConsoleColor wallColor = ConsoleColor.Gray;
+            ConsoleColor groundColor = ConsoleColor.Green;
+
+            // Définir la taille de la carte
+            int mapWidth = Console.LargestWindowWidth;
+            int mapHeight = Console.LargestWindowHeight;
+
+            // Dessiner la carte
+            for (int y = 0; y < mapHeight; y++)
             {
-                // Vérifier les coordonnées pour dessiner le joueur, les murs et le sol
-                if (x == 1 && y == 1)
+                for (int x = 0; x < mapWidth; x++)
                 {
-                    Console.ForegroundColor = playerColor;
-                    Console.Write(playerChar);
+                    // Vérifier les coordonnées pour dessiner le joueur, les murs et le sol
+                    if (x == 1 && y == 1)
+                    {
+                        Console.ForegroundColor = playerColor;
+                        Console.Write(playerChar);
+                    }
+                    else if (x == 0 || x == mapWidth - 1 || y == 0 || y == mapHeight - 1)
+                    {
+                        Console.BackgroundColor = wallColor;
+                        Console.Write(wallChar);
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = groundColor;
+                        Console.Write(groundChar);
+                    }
                 }
-                else if (x == 0 || x == mapWidth - 1 || y == 0 || y == mapHeight - 1)
-                {
-                    Console.BackgroundColor = wallColor;
-                    Console.Write(wallChar);
-                }
-                else
-                {
-                    Console.BackgroundColor = groundColor;
-                    Console.Write(groundChar);
-                }
+                // Passer à la ligne suivante pour dessiner la prochaine rangée de la carte
+                Console.WriteLine();
             }
-            // Passer à la ligne suivante pour dessiner la prochaine rangée de la carte
-            Console.WriteLine();
+
+            Console.ResetColor(); // Réinitialiser la couleur de la console
         }
 
-        Console.ResetColor(); // Réinitialiser la couleur de la console
     }
+
 }
