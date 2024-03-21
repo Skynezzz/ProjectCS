@@ -2,6 +2,7 @@ using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
 using Sakimon;
+using Sakimon.Entities.Attacks;
 
 namespace Sakimon.Entities.Pokemons
 {
