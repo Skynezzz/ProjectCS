@@ -13,11 +13,11 @@ namespace Sakimon
         private readonly Game game;
         private Sakimon()
         {
-            game = new();
+            game = Game.GetInstance();
 
             InitAttacks();
             Pokemon pikachu = new();
-            game.AddEntity(pikachu);
+            game.AddMapEntity(pikachu);
             Player player = new();
             game.AddEntity(player);
             if (attackList.ContainsKey("Queue de Fer"))
@@ -28,7 +28,7 @@ namespace Sakimon
 
         private void InitAttacks()
         {
-            Dictionary<string, List<string>> dictAttack = Utils.GetDictFromFile("Attacks.txt");
+            Dictionary<string, List<string>> dictAttack = Utils.GetDictFromFile("Data/Attacks.txt");
             foreach (var attack in dictAttack)
             {
                 attackList.Add(attack.Key, new Attack(attack.Key, int.Parse(attack.Value[0]), int.Parse(attack.Value[1]), int.Parse(attack.Value[2])));
