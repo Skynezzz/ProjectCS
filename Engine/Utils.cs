@@ -81,9 +81,9 @@ namespace Engine.Utils
             GridCase[,]? returnSprite = new GridCase[rows.Length, rows[0].Split(')').Length - 1];
 
             ConsoleColor colorCase = ConsoleColor.Magenta;
-            for (int i = 0; i < rows.Length; i++)
+ /*            for (int i = 0; i < rows.Length; i++)
             {
-                string[] values = rows[i].Split("(");
+               string[] values = rows[i].Split("(");
                 for (int j = 1; j < values.Length; j++)
                 {
                     string[] binom = values[j].Split(")");
@@ -95,6 +95,44 @@ namespace Engine.Utils
                     gridCase.bgColor = ConsoleColor.White;
                     gridCase.fgColor = colorCase;
                     returnSprite[i, j - 1] = gridCase;
+                }
+            }*/
+            
+            for (int i = 0; i < rows.Length; i++)
+            {
+                string row = rows[i];
+                int backToPos = 0;
+                for (int j = 0; j < row.Length; j++)
+                {
+                    if (j < row.Length && (char)row[j] == '\r') continue;
+                    if ((char)row[j] == '(')
+                    {
+                        if ((char)row[j + 1] == ')')
+                        {
+                            j += 1;
+                            backToPos += 2;
+                            continue;
+                        }
+                        string hexColorCode = row.Substring(j + 1, 6);
+                        colorCase = ClosestConsoleColor
+                        (
+                            Color.FromArgb
+                            (
+                                int.Parse
+                                (
+                                    hexColorCode, System.Globalization.NumberStyles.HexNumber
+                                )
+                            )
+                        );
+                        j += 8;
+                        backToPos += 8;
+                    }
+
+                    GridCase gridCase = new GridCase();
+                    gridCase.value = row[j];
+                    gridCase.bgColor = ConsoleColor.White;
+                    gridCase.fgColor = colorCase;
+                    returnSprite[i, j - backToPos] = gridCase;
                 }
             }
             return returnSprite;
