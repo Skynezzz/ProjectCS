@@ -81,22 +81,6 @@ namespace Engine.Utils
             GridCase[,]? returnSprite = new GridCase[rows.Length, rows[0].Split(')').Length - 1];
 
             ConsoleColor colorCase = ConsoleColor.Magenta;
- /*            for (int i = 0; i < rows.Length; i++)
-            {
-               string[] values = rows[i].Split("(");
-                for (int j = 1; j < values.Length; j++)
-                {
-                    string[] binom = values[j].Split(")");
-                    char character = binom[1][0];
-                    if (character == '\0') continue;
-                    if (binom[0] != "") colorCase = ClosestConsoleColor(Color.FromArgb(int.Parse((binom[0]), System.Globalization.NumberStyles.HexNumber)));
-                    GridCase gridCase = new GridCase();
-                    gridCase.value = character;
-                    gridCase.bgColor = ConsoleColor.White;
-                    gridCase.fgColor = colorCase;
-                    returnSprite[i, j - 1] = gridCase;
-                }
-            }*/
             
             for (int i = 0; i < rows.Length; i++)
             {
