@@ -28,11 +28,6 @@ B : Haute herbes
 s : Sol
 W : Water
 
-
-ƐMM3
-ƐYY3
- || 
-
     __
    / _  
   / /___     
