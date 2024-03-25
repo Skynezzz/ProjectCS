@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Engine.Entities.Components;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -10,12 +13,13 @@ namespace Engine.Entities
 {
     public class Entity
     {
-
         private List<Components.Component> componentsList;
 
         public Entity()
         {
             componentsList = new List<Components.Component>();
+
+            Game.GetInstance().AddAllEntity(this);
         }
 
         public void AddComponent(Components.Component component)
@@ -25,6 +29,13 @@ namespace Engine.Entities
         }
 
         public virtual void Update() { }
+
+        public void Draw()
+        {
+            Drawable? drawable = GetComponent<Drawable>();
+            if (drawable == null) return;
+            drawable.Draw();
+        }
 
         public T? GetComponent<T>() where T : Components.Component
         {
@@ -36,7 +47,7 @@ namespace Engine.Entities
     {
         public class Component
         {
-            private Entity? entity;
+            protected Entity? entity;
 
             public Component() { }
 
@@ -50,39 +61,92 @@ namespace Engine.Entities
 
         public class Drawable : Component
         {
-            private string shape;
+            private GridCase[,] shape;
+            private Vector2 shapePosition;
 
-            public Drawable(string pShape = "") : base()
+            public Drawable(string? path = null) : base()
             {
-                shape = pShape;
+                shape = Utils.Utils.GetSpriteFromFile(path);
+                if (shape == null) shape = new GridCase[0, 0];
             }
 
-            public void SetShape(string pShape)
-            {
-                shape = pShape;
-            }
-
-            public string GetShape()
+            public GridCase[,] GetShape()
             {
                 return shape;
+            }
+
+            public void SetShape(string path)
+            {
+                shape = Utils.Utils.GetSpriteFromFile(path);
+                if (shape == null) shape = new GridCase[0, 0];
+            }
+
+            public Vector2 GetShapePosition()
+            {
+                return shapePosition;
+            }
+
+            public void Draw()
+            {
+                Vector2 gameSize = Game.GetInstance().gameSize;
+                for (int i = 0; i < shape.GetLength(0); i++)
+                {
+                    for (int j = 0; j < shape.GetLength(1); j++)
+                    {
+                        Vector2 pos = new Vector2(j + (int)shapePosition.X, i + (int)shapePosition.Y);
+                        if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
+                        {
+                            Console.BackgroundColor = shape[i, j].bgColor;
+                            Console.ForegroundColor = shape[i, j].fgColor;
+                            Console.SetCursorPosition(j + (int)shapePosition.X, i + (int)shapePosition.Y);
+                            Console.Write(shape[i,j].value);
+                        }
+                    }
+                }
+            }
+
+            public Vector2 DrawAtNewPos(Vector2 position)
+            {
+                shapePosition = position;
+                Draw();
+                Game.GetInstance().ReplaceCursorPosition();
+                return shapePosition;
             }
         }
 
         public class Position : Component
         {
-            public Vector2 position;
-
+            private Vector2 position;
+            
             public Vector2 size;
 
-            public Position()
+            public Position(float posX = 0.0f, float posY = 0.0f, float sizeX = 0.0f, float sizeY = 0.0f)
             {
-                position = new Vector2(0, 0);
-                size = new Vector2(0, 0);
+                position = new Vector2(posX, posY);
+                size = new Vector2(sizeX, sizeY);
+            }
+            
+            public Position(Vector2 pPos, Vector2 pSize)
+            {
+                position = pPos;
+                size = pSize;
+            }
+
+            public Vector2 GetPosition()
+            {
+                return position;
             }
 
             public void SetPosition(float x, float y)
             {
-                position = new Vector2(x, y);
+                Drawable? drawable = entity.GetComponent<Drawable>();
+                if (drawable != null)
+                {
+                    Game.GetInstance().drawBack(position, drawable.GetShape());
+                    Vector2 shapePosition = drawable.DrawAtNewPos(new Vector2(x, y));
+                    position = shapePosition;
+                }
+                else { position = new Vector2(x, y); }
             }
         }
 
@@ -91,7 +155,7 @@ namespace Engine.Entities
             private int maxHealth;
             private float health;
 
-            public AliveEntity(int pMaxHealth) : base()
+            public AliveEntity(int pMaxHealth = 0) : base()
             {
                 maxHealth = pMaxHealth;
                 health = maxHealth;
@@ -104,6 +168,84 @@ namespace Engine.Entities
 
             public int GetMaxHealth() { return maxHealth; }
             public float GetHealth() { return health; }
+        }
+
+        public class Collider : Component
+        {
+            private Vector2 relativePosition;
+            private Vector2 size;
+
+            public Collider(float relativePosX = 0.0f, float relativePosY = 0.0f, float sizeX = 0.0f, float sizeY = 0.0f)
+            {
+                relativePosition = new Vector2(relativePosX, relativePosY);
+                size = new Vector2 (sizeX, sizeY);
+            }
+            
+            public Collider(Vector2 pRelativePos, Vector2 pSize)
+            {
+                relativePosition = pRelativePos;
+                size = pSize;
+            }
+
+            public Vector2 GetRelativePosition() {  return relativePosition; }
+
+            public Vector2 GetSize() { return size; }
+
+
+            private float Square(float x)
+            {
+                return x * x;
+            }
+
+            private float GetVectDist(Vector2 vect)
+            {
+                return (float)Math.Sqrt(Square(vect.X) + Square(vect.Y));
+            }
+            private bool IsCollidingOneD(Vector2 vect, float point)
+            {
+                return vect.X <= point && vect.Y <= point;
+            }
+
+            private bool IsCollidingTwoD(Vector2 vectOne, Vector2 vectTwo)
+            {
+                if (GetVectDist(vectTwo) > GetVectDist(vectOne))
+                {
+                    return IsCollidingTwoD(vectTwo, vectOne);
+                }
+                return IsCollidingOneD(vectOne, vectTwo.X) || IsCollidingOneD(vectOne, vectTwo.Y);
+            }
+
+            private bool IsCollidingTwoRect(Vector2 rectOneX, Vector2 rectOneY, Vector2 rectTwoX, Vector2 rectTwoY)
+            {
+                return IsCollidingTwoD(rectOneX, rectTwoX) && IsCollidingTwoD(rectOneY, rectTwoY);
+            }
+
+            public bool IsCollidingOn(int posX, int posY)
+            {
+                Vector2 position = new Vector2(posX, posY);
+
+                Vector2 ownVectX = new Vector2(position.X + relativePosition.X, position.X + relativePosition.X + size.X);
+                Vector2 ownVectY = new Vector2(position.Y + relativePosition.Y, position.Y + relativePosition.Y + size.Y);
+
+                foreach (var other in Game.GetInstance().allEntities)
+                {
+                    Collider? otherCollider = other.GetComponent<Collider>();
+                    if (otherCollider == null) continue;
+                    if (otherCollider == this) continue;
+
+                    Position? otherPosition = other.GetComponent<Position>();
+                    if (otherPosition == null) continue;
+
+                    if (IsCollidingTwoRect
+                        (
+                        ownVectX,
+                        ownVectY,
+                        new Vector2(otherPosition.GetPosition().X + otherCollider.GetRelativePosition().X, otherPosition.GetPosition().X + otherCollider.GetRelativePosition().X + otherCollider.GetSize().X),
+                        new Vector2(otherPosition.GetPosition().Y + otherCollider.GetRelativePosition().Y, otherPosition.GetPosition().Y + otherCollider.GetRelativePosition().Y + otherCollider.GetSize().Y)
+                        )) return true;
+                }
+                return false;
+            }
         }
     }
 }

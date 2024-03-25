@@ -3,35 +3,45 @@ using Engine.Entities.Components;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Net;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace Engine
 {
+    public struct GridCase
+    {
+        public char value;
+        public ConsoleColor fgColor;
+        public ConsoleColor bgColor;
+    }
     public class Game
     {
-        private static bool running;
-        public static Dictionary<ConsoleKeyInfo, bool> eventList;
-        private static char[,] gameGrid;
+        private static Game gameInstance;
 
-        private Vector2 gameSize;
-
-        int frameDelay;
-        Stopwatch gameTimer;
-
-        private Dictionary<string, Event> events;
+        // Variables privées
+        private bool running;
+        private GridCase[,] gameGrid;
+        private List<Event> events;
+        public List<Entities.Entity> allEntities {  get; private set; }
         private List<Entities.Entity> entities;
+        private List<Entities.Entity> mapEntities;
+        private Entity? cameraFocusOn;
+
+        // Variables publiques
+        public Vector2 gameSize;
+        public ConsoleKey? inputConsoleKey {  get; private set; }
 
 
-        public Game()
+        private Game()
         {
             gameSize = new Vector2(200, 50);
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 // Code spécifique à Windows
-                Console.SetWindowSize((int)gameSize.X, (int)gameSize.Y + 1);
+                Console.SetWindowSize((int)gameSize.X, (int)gameSize.Y);
                 Console.SetWindowPosition(0, 0);
             }
             Console.BackgroundColor = ConsoleColor.Blue;
@@ -40,54 +50,59 @@ namespace Engine
 
             running = true;
 
-            gameGrid = new char[(int)gameSize.Y, (int)gameSize.X];
+            gameGrid = new GridCase[(int)gameSize.Y, (int)gameSize.X];
             ClearGrid();
 
-            frameDelay = 1000;
-            gameTimer = new();
-
-            eventList = new Dictionary<ConsoleKeyInfo, bool>();
-            events = new Dictionary<string, Event>();
+            inputConsoleKey = null;
+            events = new List<Event>();
+            allEntities = new List<Entities.Entity>();
             entities = new List<Entities.Entity>();
+            mapEntities = new List<Entities.Entity>();
         }
 
         // STATIC //
 
-        public static bool IsEmptyCase(int x, int y)
+        public static Game GetInstance()
         {
-            return gameGrid[x, y] == ' ';
-        }
-
-        public async void EventListener()
-        {
-            while (running)
-            {
-                Game.eventList.Add(Console.ReadKey(true), true);
-            }
+            if (gameInstance == null) gameInstance = new Game();
+            return gameInstance;
         }
 
         // GAME RUN //
 
         public void Run()
         {
+            DisplayMap();
+            Display();
             while (running)
             {
-                gameTimer.Restart();
                 Event();
                 Update();
-                Display();
-                eventList[Console.ReadKey(true)] = true;
-                FramesManager();
+                inputConsoleKey = Console.ReadKey(true).Key;
             }
         }
+
+        // EVENTS MANAGEMENT //
 
         private void Event()
         {
             foreach (var iEvent in events)
             {
-                iEvent.Value.Update();
+                iEvent.Update();
             }
         }
+
+        public void AddEvent(Event pEvent)
+        {
+            events.Add(pEvent);
+        }
+
+        public void ClearEvents()
+        {
+            events.Clear();
+        }
+
+        // ENTITIES MANAGEMENT //
 
         private void Update()
         {
@@ -100,108 +115,150 @@ namespace Engine
             }
         }
 
-        private void Display()
+        public void AddAllEntity(Entities.Entity entity)
         {
-            ClearGrid();
-            foreach (var iEntity in entities)
-            {
-                if (iEntity != null)
-                {
-                    Draw(iEntity);
-                }
-            }
-            Render();
+            allEntities.Add(entity);
         }
-
-        private void FramesManager()
+        
+        public void ClearAllEntities()
         {
-            gameTimer.Stop();
-            TimeSpan elapsedTime = gameTimer.Elapsed;
-            int remainingTime = frameDelay - (int)elapsedTime.TotalMilliseconds;
-
-            if (remainingTime > 0)
-            {
-                Thread.Sleep(remainingTime);
-            }
+            allEntities.Clear();
         }
-        // DISPLAY //
-
-        private void ClearGrid()
-        {
-            for (int i = 0; i < (int)gameSize.Y; i++)
-            {
-                for (int j = 0; j < (int)gameSize.X; j++)
-                {
-                    gameGrid[i, j] = ' ';
-                }
-            }
-        }
-
-        private void Render()
-        {
-            string stringToDraw = "";
-            for (int i = 0; i < (int)gameSize.Y; i++)
-            {
-                for (int j = 0; j < (int)gameSize.X; j++)
-                {
-                    stringToDraw += gameGrid[i, j];
-                }
-            }
-            Console.WriteLine(stringToDraw);
-            Console.SetCursorPosition(0, 0);
-        }
-
-        private void Draw(Entity entity)
-        {
-            if (entity == null) return;
-            Drawable? drawable = entity.GetComponent<Drawable>();
-            if (drawable == null) return;
-            string shape = drawable.GetShape();
-            string[] shapeToDraw = shape.Split('\n');
-
-            Position? position = entity.GetComponent<Position>();
-            Vector2 drawPos;
-            if (position == null) drawPos = new(0, 0);
-            else drawPos = position.position;
-
-
-
-
-            for (int i = 0; i < shapeToDraw.Length; i++)
-            {
-                for (int j = 0; j < shapeToDraw[i].Length; j++)
-                {
-                    if ((int)drawPos.Y + i >= 0 && (int)drawPos.Y + i < gameSize.Y && (int)drawPos.X + j >= 0 && (int)drawPos.X + j < gameSize.X)
-                    {
-                        if (shapeToDraw[i][j] != ' ') gameGrid[(int)drawPos.Y + i, (int)drawPos.X + j] = shapeToDraw[i][j];
-                    }
-                }
-            }
-        }
-        // ENTITIES MANAGEMENT //
-
+        
         public void AddEntity(Entities.Entity entity)
         {
             entities.Add(entity);
         }
-
+        
         public void ClearEntities()
         {
             entities.Clear();
         }
+        
+        public void AddMapEntity(Entities.Entity entity)
+        {
+            mapEntities.Add(entity);
+            Drawable? drawable = entity.GetComponent<Drawable>();
+            if (drawable != null) DrawOnGameGrid(drawable.GetShapePosition(), drawable.GetShape());
+        }
+
+        public void ClearMapEntities()
+        {
+            mapEntities.Clear();
+        }
+
+        // DISPLAY //
+
+        private void DisplayMap()
+        {
+            for (var i = 0; i < gameGrid.GetLength(0); i++)
+            {
+                for (var j = 0; j < gameGrid.GetLength(1); j++)
+                {
+                    Console.BackgroundColor = gameGrid[i, j].bgColor;
+                    Console.ForegroundColor = gameGrid[i, j].fgColor;
+                    Console.SetCursorPosition(j, i);
+                    Console.Write(gameGrid[i, j].value);
+                }
+            }
+        }
+
+        private void Display()
+        {
+            foreach (var iEntity in entities)
+            {
+                if (iEntity != null)
+                {
+                    iEntity.Draw();
+                }
+            }
+        }
+
+        private void ClearGrid()
+        {
+            Random rand = new();
+            for (int i = 0; i < (int)gameSize.Y; i++)
+            {
+                for (int j = 0; j < (int)gameSize.X; j++)
+                {
+                    gameGrid[i, j].value = ' ';
+                    gameGrid[i, j].fgColor = ConsoleColor.Cyan;
+                    gameGrid[i, j].bgColor = ConsoleColor.Cyan;
+                }
+            }
+        }
+
+        private void DrawOnGameGrid(Vector2 position, GridCase[,] shape)
+        {
+            for (int i = 0; i < shape.GetLength(0); i++)
+            {
+                for (int j = 0; j < shape.GetLength(1); j++)
+                {
+                    Vector2 pos = new Vector2(position.X + j, position.Y + i);
+                    if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
+                    {
+                        gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
+                    }
+                }
+            }
+        }
+
+        public void drawBack(Vector2 position, GridCase[,] shape)
+        {
+            for (int i = 0; i < shape.GetLength(0); i++)
+            {
+                for (int j = 0; j < shape.GetLength(1); j++)
+                {
+                    Vector2 pos = new Vector2(position.X + j, position.Y + i);
+                    if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
+                    {
+                        Console.BackgroundColor = gameGrid[(int)pos.Y, (int)pos.X].bgColor;
+                        Console.ForegroundColor = gameGrid[(int)pos.Y, (int)pos.X].fgColor;
+                        Console.SetCursorPosition((int)pos.X, (int)pos.Y);
+                        Console.Write(gameGrid[(int)pos.Y, (int)pos.X].value);
+                    }
+                }
+            }
+        }
+
+        // UTILS //
+
+        public void SetEntityCameraFocusOn(Entity entity)
+        {
+            cameraFocusOn = entity;
+        }
+
+        public void ReplaceCursorPosition()
+        {
+            // Pas de focus
+            if (cameraFocusOn == null)
+            {
+                Console.SetCursorPosition(0, 0);
+                return;
+            }
+            // Load du composant
+            Position? position = cameraFocusOn.GetComponent<Position>();
+            Vector2 entityPosition = new(0, 0);
+            if (position != null) entityPosition = position.GetPosition();
+
+            Vector2 cursorPosition = entityPosition;
+
+            if(cursorPosition.X < 0) cursorPosition.X = 0;
+            if(cursorPosition.Y < 0) cursorPosition.Y = 0;
+            if(cursorPosition.X > gameSize.X) cursorPosition.X = gameSize.X;
+            if(cursorPosition.Y > gameSize.Y) cursorPosition.Y = gameSize.Y;
+
+            Console.SetCursorPosition((int)cursorPosition.X, (int)cursorPosition.Y);
+        }
+
     }
 
     // EVENTS MANAGEMENT //
 
     public class Event
     {
-        public Event(List<ConsoleKeyInfo> input)
-        {
-            foreach (ConsoleKeyInfo key in input)
-            {
-                Game.eventList[key] = false;
-            }
-        }
+        public Event() { }
+
         public virtual void Update() { }
     }
 }

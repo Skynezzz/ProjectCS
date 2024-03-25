@@ -3,6 +3,7 @@ using Engine.Entities;
 using Engine.Entities.Components;
 using Sakimon;
 using Sakimon.Entities.Attacks;
+using System.Numerics;
 
 namespace Sakimon.Entities.Pokemons
 {
@@ -14,9 +15,10 @@ namespace Sakimon.Entities.Pokemons
         {
             attackList = new List<Attack?>(4);
 
-            AddComponent(new Drawable("O O\n | \n | "));
-            AddComponent(new Position());
+            AddComponent(new Drawable("Assets/Pikachu.txt"));
+            AddComponent(new Position(0, 0));
             AddComponent(new AliveEntity(100));
+            AddComponent(new Collider(new Vector2(0), new Vector2(3)));
         }
 
         public void AddAttack(Attack attack, int index = 0)

@@ -1,0 +1,4 @@
+up:90
+down:83
+left:81
+right:68

@@ -17,38 +17,41 @@ namespace Sakimon.Entities.Player
 
         public Player()
         {
-            AddComponent(new Drawable(" o \n-O-\n/ \\"));
-            AddComponent(new Position());
+            AddComponent(new Position(0, 0));
+            AddComponent(new Drawable("Assets/Player.txt"));
+            AddComponent(new Collider(new Vector2(0), new Vector2(3)));
 
-            string option = Utils.GetTextFromFile("Options.txt");
+            var option = Utils.GetDictFromFile("Data/Options.txt");
+            eBinds = new PlayerBinds(this);
+            Game.GetInstance().AddEvent(eBinds);
         }
 
         public override void Update() 
         {
             base.Update();
-            Position CPosition = GetComponent<Position>();
-            CPosition.SetPosition(CPosition.position.X + 1, CPosition.position.Y);
         }
 
         public void move(int direction)
         {
-            Position CPosition = GetComponent<Position>();
+            Collider cCollider = GetComponent<Collider>();
+            Position cPosition = GetComponent<Position>();
+            Vector2 position = cPosition.GetPosition();
             switch (direction)
             {
                 case UP:
-                    if (Engine.Game.IsEmptyCase((int)CPosition.position.X, (int)CPosition.position.Y + 1)) CPosition.SetPosition(CPosition.position.X, CPosition.position.Y + 1);
+                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == false) cPosition.SetPosition(position.X, position.Y - 1);
                     break;
 
                 case DOWN:
-                    if (Engine.Game.IsEmptyCase((int)CPosition.position.X, (int)CPosition.position.Y - 1)) CPosition.SetPosition(CPosition.position.X, CPosition.position.Y);
+                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y - 1) == false) cPosition.SetPosition(position.X, position.Y + 1);
                     break;
 
                 case LEFT:
-                    if (Engine.Game.IsEmptyCase((int)CPosition.position.X - 1, (int)CPosition.position.Y)) CPosition.SetPosition(CPosition.position.X, CPosition.position.Y);
+                    if (cCollider.IsCollidingOn((int)position.X - 1, (int)position.Y) == false) cPosition.SetPosition(position.X - 1, position.Y);
                     break;
 
                 case RIGHT:
-                    if (Engine.Game.IsEmptyCase((int)CPosition.position.X + 1, (int)CPosition.position.Y)) CPosition.SetPosition(CPosition.position.X, CPosition.position.Y);
+                    if (cCollider.IsCollidingOn((int)position.X + 1, (int)position.Y) == false) cPosition.SetPosition(position.X + 1, position.Y);
                     break;
             }
         }
@@ -57,24 +60,26 @@ namespace Sakimon.Entities.Player
     class PlayerBinds : Event
     {
         Player ownPlayer;
-        private Dictionary<ConsoleKeyInfo, int> binds;
+        private Dictionary<ConsoleKey, int> binds;
 
-        public PlayerBinds(Player pOwnPlayer, List<ConsoleKeyInfo> bindsFromSettings) : base(bindsFromSettings)
+        public PlayerBinds(Player pOwnPlayer) : base()
         {
             ownPlayer = pOwnPlayer;
 
+            var bindsFromSettings = Utils.GetDictFromFile("Data/Options.txt");
+
             binds = new();
-            binds.Add(bindsFromSettings[0], Player.UP);
-            binds.Add(bindsFromSettings[1], Player.DOWN);
-            binds.Add(bindsFromSettings[2], Player.LEFT);
-            binds.Add(bindsFromSettings[3], Player.RIGHT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["up"][0]), Player.UP);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["down"][0]), Player.DOWN);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["left"][0]), Player.LEFT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["right"][0]), Player.RIGHT);
         }
 
         public override void Update()
         {
-            foreach (ConsoleKeyInfo key in binds.Keys)
+            foreach (ConsoleKey key in binds.Keys)
             {
-                if (Game.eventList[key]) ownPlayer.move(binds[key]);
+                if (Game.GetInstance().inputConsoleKey == key) ownPlayer.move(binds[key]);
             }
         }
     }
