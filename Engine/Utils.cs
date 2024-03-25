@@ -82,7 +82,8 @@ namespace Engine.Utils
 
             string[] rows = textFromFile.Split('\n');
 
-            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 8) - 1;
+            //int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 8) - 1;
+            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 4) - 1;
             GridCase[,]? returnSprite = new GridCase[rows.Length, width];
 
             ConsoleColor colorCase = ConsoleColor.Magenta;
@@ -102,19 +103,23 @@ namespace Engine.Utils
                             backToPos += 2;
                             continue;
                         }
-                        string hexColorCode = row.Substring(j + 1, 6);
-                        colorCase = ClosestConsoleColor
-                        (
-                            Color.FromArgb
-                            (
-                                int.Parse
-                                (
-                                    hexColorCode, System.Globalization.NumberStyles.HexNumber
-                                )
-                            )
-                        );
-                        j += 8;
-                        backToPos += 8;
+                        //string hexColorCode = row.Substring(j + 1, 6);
+                        string colorCode = row.Substring(j + 1, 2);
+                        //colorCase = ClosestConsoleColor
+                        //(
+                        //Color.FromArgb
+                        //(
+                        //int.Parse
+                        //(
+                        //hexColorCode, System.Globalization.NumberStyles.HexNumber
+                        //)
+                        //)
+                        //);
+                        colorCase = (ConsoleColor)int.Parse(colorCode);
+                        //j += 8;
+                        //backToPos += 8;
+                        j += 4;
+                        backToPos += 4;
                     }
 
                     GridCase gridCase = new GridCase();
