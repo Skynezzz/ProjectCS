@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Utils;
@@ -8,11 +9,14 @@ namespace Sakimon.Entities.Map
 {
     class Map : Entity
     {
-
+        public Map() 
+        {
+            ReadMap();
+        }
         public void ReadMap()
         {
 
-            string maptxt = Utils.GetTextFromFile("Map.txt");
+            string maptxt = Utils.GetTextFromFile("Assets/Map.txt");
             string[] map = maptxt.Split('\n');
 
             for (int y = 0; y < map.Length; y++)
@@ -23,9 +27,11 @@ namespace Sakimon.Entities.Map
                     {
                         case 'T':
                             Tree tree = new Tree(x, y);
+                            Game.GetInstance().AddMapEntity(tree);
                             break;
                         case 'H':
                             House house = new House(x, y);
+                            Game.GetInstance().AddMapEntity(house);
                             break;
                     }
                 }
@@ -38,7 +44,7 @@ namespace Sakimon.Entities.Map
     {
         public MapEntity(int x, int y)
         {
-
+            AddComponent(new Position(x, y));
         }
     }
 
@@ -46,7 +52,7 @@ namespace Sakimon.Entities.Map
     {
         public Tree(int x, int y) : base(x, y)
         {
-            AddComponent(new Drawable("ƐMM3\nƐYY3\n || "));
+            AddComponent(new Drawable("Assets/Tree.txt"));
         }
     }
 
@@ -54,9 +60,7 @@ namespace Sakimon.Entities.Map
     {
         public House(int x, int y) : base(x, y)
         {
-            string housetxt = Utils.GetTextFromFile("House.txt");
-            string[] house = housetxt.Split('\n');
-            AddComponent(new Drawable(""));
+            AddComponent(new Drawable("Assets/House.txt"));
         }
 
     }

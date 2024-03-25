@@ -4,6 +4,7 @@ using Engine.Entities.Components;
 using Sakimon.Entities.Player;
 using Sakimon.Entities.Pokemons;
 using Sakimon.Entities.Attacks;
+using Sakimon.Entities.Map;
 
 namespace Sakimon
 {
@@ -16,6 +17,7 @@ namespace Sakimon
             game = Game.GetInstance();
 
             InitAttacks();
+            Map map = new();
             Pokemon pikachu = new();
             game.AddMapEntity(pikachu);
             Player player = new();
@@ -40,7 +42,7 @@ namespace Sakimon
         {
             Sakimon sakimon = new();
             sakimon.game.Run();
-
+            
         }
     }
 }
