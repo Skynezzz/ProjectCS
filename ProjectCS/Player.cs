@@ -18,7 +18,7 @@ namespace Sakimon.Entities.Player
         public Player()
         {
             AddComponent(new Position(0, 0));
-            AddComponent(new Drawable("Assets/Player.txt"));
+            AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
             AddComponent(new Collider(new Vector2(0), new Vector2(3)));
 
             var option = Utils.GetDictFromFile("Data/Options.txt");

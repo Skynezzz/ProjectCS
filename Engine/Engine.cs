@@ -14,7 +14,7 @@ namespace Engine
     {
         public char value;
         public ConsoleColor fgColor;
-        public ConsoleColor bgColor;
+        public ConsoleColor? bgColor;
     }
     public class Game
     {
@@ -155,10 +155,7 @@ namespace Engine
             {
                 for (var j = 0; j < gameGrid.GetLength(1); j++)
                 {
-                    Console.BackgroundColor = gameGrid[i, j].bgColor;
-                    Console.ForegroundColor = gameGrid[i, j].fgColor;
-                    Console.SetCursorPosition(j, i);
-                    Console.Write(gameGrid[i, j].value);
+                    drawGridCase(gameGrid[i, j], j, i);
                 }
             }
         }
@@ -210,14 +207,22 @@ namespace Engine
                 for (int j = 0; j < shape.GetLength(1); j++)
                 {
                     Vector2 pos = new Vector2(position.X + j, position.Y + i);
-                    if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
-                    {
-                        Console.BackgroundColor = gameGrid[(int)pos.Y, (int)pos.X].bgColor;
-                        Console.ForegroundColor = gameGrid[(int)pos.Y, (int)pos.X].fgColor;
-                        Console.SetCursorPosition((int)pos.X, (int)pos.Y);
-                        Console.Write(gameGrid[(int)pos.Y, (int)pos.X].value);
-                    }
+                    drawGridCase(gameGrid[(int)pos.Y, (int)pos.X], (int)pos.X, (int)pos.Y);
                 }
+            }
+        }
+
+        public void drawGridCase(GridCase gridCase, int x, int y)
+        {
+            if (x >= 0 && x < gameSize.X && y >= 0 && y < gameSize.Y)
+            {
+                //Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
+                Console.BackgroundColor = ConsoleColor.Cyan;
+                if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
+                Console.ForegroundColor = gridCase.fgColor;
+                Console.SetCursorPosition((int)x, (int)y);
+                if (gridCase.value == ' ') Console.Write(gameGrid[y, x].value);
+                else Console.Write(gridCase.value);
             }
         }
 

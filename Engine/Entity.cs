@@ -64,8 +64,9 @@ namespace Engine.Entities
             private GridCase[,] shape;
             private Vector2 shapePosition;
 
-            public Drawable(string? path = null) : base()
+            public Drawable(string? path = null, Position? position = null) : base()
             {
+                if (position != null) shapePosition = position.GetPosition();
                 shape = Utils.Utils.GetSpriteFromFile(path);
                 if (shape == null) shape = new GridCase[0, 0];
             }
@@ -94,13 +95,7 @@ namespace Engine.Entities
                     for (int j = 0; j < shape.GetLength(1); j++)
                     {
                         Vector2 pos = new Vector2(j + (int)shapePosition.X, i + (int)shapePosition.Y);
-                        if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
-                        {
-                            Console.BackgroundColor = shape[i, j].bgColor;
-                            Console.ForegroundColor = shape[i, j].fgColor;
-                            Console.SetCursorPosition(j + (int)shapePosition.X, i + (int)shapePosition.Y);
-                            Console.Write(shape[i,j].value);
-                        }
+                        Game.GetInstance().drawGridCase(shape[i, j], (int)pos.X, (int)pos.Y);
                     }
                 }
             }

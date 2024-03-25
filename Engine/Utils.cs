@@ -114,7 +114,7 @@ namespace Engine.Utils
 
                     GridCase gridCase = new GridCase();
                     gridCase.value = row[j];
-                    gridCase.bgColor = ConsoleColor.White;
+                    gridCase.bgColor = null;
                     gridCase.fgColor = colorCase;
                     returnSprite[i, j - backToPos] = gridCase;
                 }

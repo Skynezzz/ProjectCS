@@ -15,8 +15,8 @@ namespace Sakimon.Entities.Pokemons
         {
             attackList = new List<Attack?>(4);
 
-            AddComponent(new Drawable("Assets/Pikachu.txt"));
-            AddComponent(new Position(0, 0));
+            AddComponent(new Position(20, 10));
+            AddComponent(new Drawable("Assets/Pikachu.txt", GetComponent<Position>()));
             AddComponent(new AliveEntity(100));
             AddComponent(new Collider(new Vector2(0), new Vector2(3)));
         }
