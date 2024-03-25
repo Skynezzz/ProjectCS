@@ -71,6 +71,10 @@ namespace Engine.Utils
 
         public static GridCase[,]? GetSpriteFromFile(string? path)
         {
+            if (path == "Assets/Tree.txt")
+            {
+                int test = 1;
+            }
             if (path == null) return null;
 
             string? textFromFile = GetTextFromFile(path);
