@@ -82,7 +82,8 @@ namespace Engine.Utils
 
             string[] rows = textFromFile.Split('\n');
 
-            GridCase[,]? returnSprite = new GridCase[rows.Length, rows[0].Split(')').Length - 1];
+            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 8) - 1;
+            GridCase[,]? returnSprite = new GridCase[rows.Length, width];
 
             ConsoleColor colorCase = ConsoleColor.Magenta;
             

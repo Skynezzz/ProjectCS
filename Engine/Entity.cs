@@ -170,7 +170,7 @@ namespace Engine.Entities
             private Vector2 relativePosition;
             private Vector2 size;
 
-            public Collider(float relativePosX = 0.0f, float relativePosY = 0.0f, float sizeX = 0.0f, float sizeY = 0.0f)
+            public Collider(int relativePosX = 0, int relativePosY = 0, int sizeX = 0, int sizeY = 0)
             {
                 relativePosition = new Vector2(relativePosX, relativePosY);
                 size = new Vector2 (sizeX, sizeY);
