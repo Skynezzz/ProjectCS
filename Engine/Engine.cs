@@ -194,7 +194,7 @@ namespace Engine
                     Vector2 pos = new Vector2(position.X + j, position.Y + i);
                     if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
                     {
-                        gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
+                        if (shape[i, j].value != ' ') gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
                     }
                 }
             }
@@ -207,7 +207,7 @@ namespace Engine
                 for (int j = 0; j < shape.GetLength(1); j++)
                 {
                     Vector2 pos = new Vector2(position.X + j, position.Y + i);
-                    drawGridCase(gameGrid[(int)pos.Y, (int)pos.X], (int)pos.X, (int)pos.Y);
+                    if ((int)pos.X >= 0 && (int)pos.X < gameSize.X && (int)pos.Y >= 0 && (int)pos.Y < gameSize.Y) drawGridCase(gameGrid[(int)pos.Y, (int)pos.X], (int)pos.X, (int)pos.Y);
                 }
             }
         }

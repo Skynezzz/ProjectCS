@@ -15,9 +15,9 @@ namespace Sakimon.Entities.Player
         public const int LEFT = 2;
         public const int RIGHT = 3;
 
-        public Player()
+        public Player(int x = 0, int y = 0)
         {
-            AddComponent(new Position(0, 0));
+            AddComponent(new Position(x, y));
             AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
             AddComponent(new Collider(new Vector2(0), new Vector2(3)));
 

@@ -20,7 +20,7 @@ namespace Sakimon
             Map map = new();
             Pokemon pikachu = new();
             game.AddMapEntity(pikachu);
-            Player player = new();
+            Player player = new(118, 0);
             game.AddEntity(player);
             if (attackList.ContainsKey("Queue de Fer"))
             {
