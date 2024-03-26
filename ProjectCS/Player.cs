@@ -39,11 +39,11 @@ namespace Sakimon.Entities.Player
             switch (direction)
             {
                 case UP:
-                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == false) cPosition.SetPosition(position.X, position.Y - 1);
+                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y - 1) == false) cPosition.SetPosition(position.X, position.Y - 1);
                     break;
 
                 case DOWN:
-                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y - 1) == false) cPosition.SetPosition(position.X, position.Y + 1);
+                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == false) cPosition.SetPosition(position.X, position.Y + 1);
                     break;
 
                 case LEFT:

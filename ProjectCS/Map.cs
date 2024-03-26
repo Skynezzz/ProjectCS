@@ -48,7 +48,7 @@ namespace Sakimon.Entities.Map
     {
         public MapEntity(int x, int y)
         {
-            AddComponent(new Position(x, y));
+            AddComponent(new Position(x, y, 5, 4));
         }
     }
 
@@ -57,7 +57,7 @@ namespace Sakimon.Entities.Map
         public Tree(int x, int y) : base(x, y)
         {
             AddComponent(new Drawable("Assets/Tree.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 4, 4));
+            AddComponent(new Collider(0, 0, 5, 4));
         }
     }
 
@@ -66,6 +66,7 @@ namespace Sakimon.Entities.Map
         public House(int x, int y) : base(x, y)
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
+            AddComponent(new Collider(2, 3, 14, 4));
         }
 
     }

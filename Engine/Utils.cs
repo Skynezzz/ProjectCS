@@ -103,21 +103,10 @@ namespace Engine.Utils
                             backToPos += 2;
                             continue;
                         }
-                        //string hexColorCode = row.Substring(j + 1, 6);
+
                         string colorCode = row.Substring(j + 1, 2);
-                        //colorCase = ClosestConsoleColor
-                        //(
-                        //Color.FromArgb
-                        //(
-                        //int.Parse
-                        //(
-                        //hexColorCode, System.Globalization.NumberStyles.HexNumber
-                        //)
-                        //)
-                        //);
                         colorCase = (ConsoleColor)int.Parse(colorCode);
-                        //j += 8;
-                        //backToPos += 8;
+
                         j += 4;
                         backToPos += 4;
                     }

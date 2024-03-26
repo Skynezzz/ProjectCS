@@ -89,7 +89,6 @@ namespace Engine.Entities
 
             public void Draw()
             {
-                Vector2 gameSize = Game.GetInstance().gameSize;
                 for (int i = 0; i < shape.GetLength(0); i++)
                 {
                     for (int j = 0; j < shape.GetLength(1); j++)
@@ -173,13 +172,13 @@ namespace Engine.Entities
             public Collider(int relativePosX = 0, int relativePosY = 0, int sizeX = 0, int sizeY = 0)
             {
                 relativePosition = new Vector2(relativePosX, relativePosY);
-                size = new Vector2 (sizeX, sizeY);
+                size = new Vector2 (sizeX - 1, sizeY - 1);
             }
             
             public Collider(Vector2 pRelativePos, Vector2 pSize)
             {
                 relativePosition = pRelativePos;
-                size = pSize;
+                size = new Vector2(pSize.X - 1, pSize.Y - 1);
             }
 
             public Vector2 GetRelativePosition() {  return relativePosition; }
@@ -196,14 +195,15 @@ namespace Engine.Entities
             {
                 return (float)Math.Sqrt(Square(vect.X) + Square(vect.Y));
             }
+
             private bool IsCollidingOneD(Vector2 vect, float point)
             {
-                return vect.X <= point && vect.Y <= point;
+                return vect.X <= point && point <= vect.Y;
             }
 
             private bool IsCollidingTwoD(Vector2 vectOne, Vector2 vectTwo)
             {
-                if (GetVectDist(vectTwo) > GetVectDist(vectOne))
+                if (GetVectDist(vectTwo) < GetVectDist(vectOne))
                 {
                     return IsCollidingTwoD(vectTwo, vectOne);
                 }
@@ -231,12 +231,15 @@ namespace Engine.Entities
                     Position? otherPosition = other.GetComponent<Position>();
                     if (otherPosition == null) continue;
 
-                    if (IsCollidingTwoRect
+                    Vector2 oPosition = otherPosition.GetPosition();
+                    Vector2 oRelativePosition = otherCollider.GetRelativePosition();
+
+                    if (IsCollidingTwoRect  
                         (
                         ownVectX,
                         ownVectY,
-                        new Vector2(otherPosition.GetPosition().X + otherCollider.GetRelativePosition().X, otherPosition.GetPosition().X + otherCollider.GetRelativePosition().X + otherCollider.GetSize().X),
-                        new Vector2(otherPosition.GetPosition().Y + otherCollider.GetRelativePosition().Y, otherPosition.GetPosition().Y + otherCollider.GetRelativePosition().Y + otherCollider.GetSize().Y)
+                        new Vector2(oPosition.X + oRelativePosition.X, oPosition.X + oRelativePosition.X + otherCollider.GetSize().X),
+                        new Vector2(oPosition.Y + oRelativePosition.Y, oPosition.Y + oRelativePosition.Y + otherCollider.GetSize().Y)
                         )) return true;
                 }
                 return false;
