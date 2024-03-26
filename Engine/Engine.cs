@@ -36,7 +36,7 @@ namespace Engine
 
         private Game()
         {
-            gameSize = new Vector2(200, 50);
+            gameSize = new Vector2(201, 52);
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
@@ -179,7 +179,7 @@ namespace Engine
                 for (int j = 0; j < (int)gameSize.X; j++)
                 {
                     gameGrid[i, j].value = ' ';
-                    gameGrid[i, j].fgColor = ConsoleColor.Cyan;
+                    gameGrid[i, j].fgColor = ConsoleColor.Gray;
                     gameGrid[i, j].bgColor = ConsoleColor.Gray;
                 }
             }
@@ -218,18 +218,18 @@ namespace Engine
             {
                 Console.SetCursorPosition((int)x, (int)y);
                 Console.BackgroundColor = ConsoleColor.Gray;
-                if (gameGrid[y, x].bgColor != null) Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
-                Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
 
-                if (gridCase.value != ' ')
+                if (gridCase.value == ' ')
+                {
+                    if (gameGrid[y, x].bgColor != null) Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
+                    Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
+                    Console.Write(gameGrid[y, x].value);
+                }
+                else
                 {
                     if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
                     Console.ForegroundColor = gridCase.fgColor;
                     Console.Write(gridCase.value);
-                }
-                else
-                {
-                    Console.Write(gameGrid[y, x].value);
                 }
 
             }
