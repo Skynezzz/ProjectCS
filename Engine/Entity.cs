@@ -82,6 +82,35 @@ namespace Engine.Entities
                 if (shape == null) shape = new GridCase[0, 0];
             }
 
+            public void SetShapeWithString(string pShape, ConsoleColor textColor = ConsoleColor.Black, ConsoleColor? textBgColor = null)
+            {
+                string[] slicedShape = pShape.Split('\n');
+                int rowMaxSize = 0;
+                foreach (var row in slicedShape)
+                {
+                    if (row.Length > rowMaxSize) rowMaxSize = row.Length;
+                }
+                shape = new GridCase[rowMaxSize, slicedShape.Length];
+                GridCase gCase = new GridCase();
+                gCase.fgColor = textColor;
+                gCase.bgColor = textBgColor;
+                for (int i = 0; i < slicedShape.Length; i++)
+                {
+                    for (int j = 0; j < rowMaxSize; j++)
+                    {
+                        if (j < slicedShape.Length)
+                        {
+                            gCase.value = (char)slicedShape[i][j];
+                        }
+                        else
+                        {
+                            gCase.value = ' ';
+                        }
+                        shape[i, j] = gCase;
+                    }
+                }
+            }
+
             public Vector2 GetShapePosition()
             {
                 return shapePosition;
