@@ -89,7 +89,6 @@ namespace Engine.Entities
 
             public void Draw()
             {
-                Vector2 gameSize = Game.GetInstance().gameSize;
                 for (int i = 0; i < shape.GetLength(0); i++)
                 {
                     for (int j = 0; j < shape.GetLength(1); j++)
@@ -204,7 +203,7 @@ namespace Engine.Entities
 
             private bool IsCollidingTwoD(Vector2 vectOne, Vector2 vectTwo)
             {
-                if (GetVectDist(vectTwo) > GetVectDist(vectOne))
+                if (GetVectDist(vectTwo) < GetVectDist(vectOne))
                 {
                     return IsCollidingTwoD(vectTwo, vectOne);
                 }

@@ -62,7 +62,7 @@ namespace Sakimon.Entities.Map
         public House(int x, int y) : base(x, y)
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 18, 7));
+            AddComponent(new Collider(2, 3, 14, 4));
         }
 
     }

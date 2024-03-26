@@ -216,13 +216,22 @@ namespace Engine
         {
             if (x >= 0 && x < gameSize.X && y >= 0 && y < gameSize.Y)
             {
-                //Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
-                Console.BackgroundColor = ConsoleColor.Gray;
-                if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
-                Console.ForegroundColor = gridCase.fgColor;
                 Console.SetCursorPosition((int)x, (int)y);
-                if (gridCase.value == ' ') Console.Write(gameGrid[y, x].value);
-                else Console.Write(gridCase.value);
+                Console.BackgroundColor = ConsoleColor.Gray;
+                if (gameGrid[y, x].bgColor != null) Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
+                Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
+
+                if (gridCase.value != ' ')
+                {
+                    if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
+                    Console.ForegroundColor = gridCase.fgColor;
+                    Console.Write(gridCase.value);
+                }
+                else
+                {
+                    Console.Write(gameGrid[y, x].value);
+                }
+
             }
         }
 
