@@ -37,6 +37,10 @@ namespace Sakimon.Entities.Map
                             Labo labo = new Labo(x, y);
                             Game.GetInstance().AddMapEntity(labo);
                             break;
+                        case 'D':
+                            Door door = new Door(x, y);
+                            Game.GetInstance().AddMapEntity(door);
+                            break;
                         case 'P':
                             Pnj pnj = new Pnj(x, y);
                             Game.GetInstance().AddMapEntity(pnj);
@@ -44,6 +48,10 @@ namespace Sakimon.Entities.Map
                         case 'W':
                             Water water = new Water(x, y);
                             Game.GetInstance().AddMapEntity(water);
+                            break;
+                        case 'F':
+                            Wall wall = new Wall(x, y);
+                            Game.GetInstance().AddMapEntity(wall);
                             break;
                     }
                 }
@@ -87,6 +95,26 @@ namespace Sakimon.Entities.Map
         }
     }
 
+    class Door : MapEntity
+    {
+        public Door(int x, int y) : base(x, y, 3, 3)
+        {
+            AddComponent(new Drawable("Assets/Door.txt", GetComponent<Position>()));
+            Collider collider = new Collider(0, 0, 4, 3);
+            collider.SetOnCollisionEvent(new MapEvent("Assets/LaboMap.txt"));
+            AddComponent(collider);
+        }
+    }
+
+    class Wall : MapEntity
+    {
+        public Wall(int x, int y) : base(x, y, 2, 2)
+        {
+            AddComponent(new Drawable("Assets/Wall.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 2, 2));
+        }
+    }
+
     class Pnj : MapEntity
     {
         public Pnj(int x, int y) : base(x, y, 3, 3)
@@ -105,4 +133,16 @@ namespace Sakimon.Entities.Map
         }
     }
 
+    class MapEvent : Event
+    {
+        private string path;
+
+        public MapEvent(string pPath) { path = pPath; }
+
+        public override void Update()
+        {
+            base.Update();
+            //GameManager.LoadScene(path);
+        }
+    }
 }

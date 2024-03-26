@@ -16,7 +16,7 @@ CCCCC                                                                           
 CTCCC                                                                                                                                                                                              CTCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
-TCCCC                                                                                                                                                                                              TCCCC
+TCCCC                                      D                                                                                                          D                                            TCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                P                                             CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
@@ -35,7 +35,7 @@ CTCCC                                                                           
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 TCCCC                                                                                                                                                                                              TCCCC
-CCCCC                                                                                                                                                                                              CCCCC
+CCCCC                                                                                                                                                  D                                           CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
 CCCCC                                                  WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                                                                                              CCCCC
