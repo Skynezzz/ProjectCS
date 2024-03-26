@@ -18,14 +18,8 @@ namespace Sakimon
 
             InitAttacks();
             Map map = new();
-            Pokemon pikachu = new();
-            game.AddMapEntity(pikachu);
-            Player player = new(118, 0);
+            Player player = new(91, 18);
             game.AddEntity(player);
-            if (attackList.ContainsKey("Queue de Fer"))
-            {
-                pikachu.attackList.Add(attackList.GetValueOrDefault("Queue de Fer"));
-            }
         }
 
         private void InitAttacks()
