@@ -1,7 +1,7 @@
 ﻿using Engine;
 using Engine.Utils;
 using Engine.Entities.Components;
-using Sakimon.Entities.Player;
+using Sakimon.Entities.PlayerEntity;
 using Sakimon.Entities.Pokemons;
 using Sakimon.Entities.Attacks;
 using Sakimon.Entities.Map;
@@ -12,13 +12,14 @@ namespace Sakimon
     {
         private readonly Dictionary<string, Attack> attackList = new();
         private readonly Game game;
+
         private Sakimon()
         {
             game = Game.GetInstance();
 
             InitAttacks();
             Map map = new();
-            Player player = new(50, 20);
+            PlayerEntity player = new(50, 20);
             game.AddEntity(player);
         }
 
