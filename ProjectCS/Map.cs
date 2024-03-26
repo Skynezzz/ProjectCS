@@ -88,7 +88,7 @@ namespace Sakimon.Entities.Map
 
     class Pnj : MapEntity
     {
-        public Pnj(int x, int y) : base(x, y)
+        public Pnj(int x, int y) : base(x, y, 3, 3)
         {
             AddComponent(new Drawable("Assets/Pnj.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 3, 3));
@@ -97,7 +97,7 @@ namespace Sakimon.Entities.Map
 
     class Water : MapEntity
     {
-        public Water(int x, int y) : base(x, y)
+        public Water(int x, int y) : base(x, y, 2, 1)
         {
             AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 2, 1));
