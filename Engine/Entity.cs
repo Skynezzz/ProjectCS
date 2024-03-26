@@ -193,7 +193,7 @@ namespace Engine.Entities
 
             private float GetVectDist(Vector2 vect)
             {
-                return (float)Math.Sqrt(Square(vect.X) + Square(vect.Y));
+                return vect.Y - vect.X;
             }
 
             private bool IsCollidingOneD(Vector2 vect, float point)
@@ -203,7 +203,7 @@ namespace Engine.Entities
 
             private bool IsCollidingTwoD(Vector2 vectOne, Vector2 vectTwo)
             {
-                if (GetVectDist(vectTwo) < GetVectDist(vectOne))
+                if (GetVectDist(vectTwo) > GetVectDist(vectOne))
                 {
                     return IsCollidingTwoD(vectTwo, vectOne);
                 }

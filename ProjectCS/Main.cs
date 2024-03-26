@@ -18,7 +18,7 @@ namespace Sakimon
 
             InitAttacks();
             Map map = new();
-            Player player = new(91, 18);
+            Player player = new(50, 20);
             game.AddEntity(player);
         }
 
