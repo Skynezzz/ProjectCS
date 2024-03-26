@@ -71,10 +71,10 @@ namespace Sakimon.Entities.Map
 
     class House : MapEntity
     {
-        public House(int x, int y) : base(x, y, 19, 8)
+        public House(int x, int y) : base(x, y, 18, 8)
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 19, 8));
+            AddComponent(new Collider(0, 0, 18, 8));
         }
     }
 
@@ -83,12 +83,13 @@ namespace Sakimon.Entities.Map
         public Labo(int x, int y) : base(x, y, 18, 6)
         {
             AddComponent(new Drawable("Assets/Labo.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 18, 6));
         }
     }
 
     class Pnj : MapEntity
     {
-        public Pnj(int x, int y) : base(x, y)
+        public Pnj(int x, int y) : base(x, y, 3, 3)
         {
             AddComponent(new Drawable("Assets/Pnj.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 3, 3));
@@ -97,10 +98,10 @@ namespace Sakimon.Entities.Map
 
     class Water : MapEntity
     {
-        public Water(int x, int y) : base(x, y)
+        public Water(int x, int y) : base(x, y, 1, 2)
         {
             AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 2, 1));
+            AddComponent(new Collider(0, 0, 1, 2));
         }
     }
 

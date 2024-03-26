@@ -6,9 +6,9 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Sakimon.Entities.Player
+namespace Sakimon.Entities.PlayerEntity
 {
-    class Player : Entity
+    class PlayerEntity : Entity
     {
         PlayerBinds eBinds;
         public const int UP = 0;
@@ -17,7 +17,7 @@ namespace Sakimon.Entities.Player
         public const int RIGHT = 3;
         public const int INTERACT = 4;
 
-        public Player(int x = 0, int y = 0)
+        public PlayerEntity(int x = 0, int y = 0)
         {
             AddComponent(new Position(x, y));
             AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
@@ -61,20 +61,20 @@ namespace Sakimon.Entities.Player
 
     class PlayerBinds : Event
     {
-        Player ownPlayer;
+        PlayerEntity ownPlayer;
         private Dictionary<ConsoleKey, int> binds;
 
-        public PlayerBinds(Player pOwnPlayer) : base()
+        public PlayerBinds(PlayerEntity pOwnPlayer) : base()
         {
             ownPlayer = pOwnPlayer;
 
             var bindsFromSettings = Utils.GetDictFromFile("Data/Options.txt");
 
             binds = new();
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["up"][0]), Player.UP);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["down"][0]), Player.DOWN);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["left"][0]), Player.LEFT);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["right"][0]), Player.RIGHT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["up"][0]), PlayerEntity.UP);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["down"][0]), PlayerEntity.DOWN);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["left"][0]), PlayerEntity.LEFT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["right"][0]), PlayerEntity.RIGHT);
         }
 
         public override void Update()

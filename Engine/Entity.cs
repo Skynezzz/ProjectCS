@@ -197,6 +197,8 @@ namespace Engine.Entities
         {
             private Vector2 relativePosition;
             private Vector2 size;
+            private bool solid = true;
+            private Event? onCollisionEvent = null;
 
             public Collider(int relativePosX = 0, int relativePosY = 0, int sizeX = 0, int sizeY = 0)
             {
@@ -210,10 +212,18 @@ namespace Engine.Entities
                 size = new Vector2(pSize.X - 1, pSize.Y - 1);
             }
 
+            // GETER //
             public Vector2 GetRelativePosition() {  return relativePosition; }
-
             public Vector2 GetSize() { return size; }
+            public bool IsSolid() { return solid; }
+            public Event? GetOnCollisionEvent() { return onCollisionEvent; }
 
+            // SETER //
+
+            public void SetSolid(bool pSolid) { solid = pSolid; }
+            public void SetOnCollisionEvent(Event pOnCollisionEvent) {  onCollisionEvent = pOnCollisionEvent; }
+
+            // COLLIDE UTILS //
 
             private float Square(float x)
             {
@@ -244,6 +254,8 @@ namespace Engine.Entities
                 return IsCollidingTwoD(rectOneX, rectTwoX) && IsCollidingTwoD(rectOneY, rectTwoY);
             }
 
+            // COLLIDE //
+
             public bool IsCollidingOn(int posX, int posY)
             {
                 Vector2 position = new Vector2(posX, posY);
@@ -263,13 +275,20 @@ namespace Engine.Entities
                     Vector2 oPosition = otherPosition.GetPosition();
                     Vector2 oRelativePosition = otherCollider.GetRelativePosition();
 
-                    if (IsCollidingTwoRect  
+                    if (IsCollidingTwoRect
                         (
                         ownVectX,
                         ownVectY,
                         new Vector2(oPosition.X + oRelativePosition.X, oPosition.X + oRelativePosition.X + otherCollider.GetSize().X),
                         new Vector2(oPosition.Y + oRelativePosition.Y, oPosition.Y + oRelativePosition.Y + otherCollider.GetSize().Y)
-                        )) return true;
+                        ))
+                    {
+                        if (otherCollider.onCollisionEvent != null)
+                        {
+                            otherCollider.onCollisionEvent.Update();
+                        }
+                        return otherCollider.IsSolid();
+                    }
                 }
                 return false;
             }
