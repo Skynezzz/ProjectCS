@@ -33,6 +33,10 @@ namespace Sakimon.Entities.Map
                             House house = new House(x, y);
                             Game.GetInstance().AddMapEntity(house);
                             break;
+                        case 'L':
+                            Labo labo = new Labo(x, y);
+                            Game.GetInstance().AddMapEntity(labo);
+                            break;
                     }
                 }
             }
@@ -63,6 +67,15 @@ namespace Sakimon.Entities.Map
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
             AddComponent(new Collider(2, 3, 14, 4));
+        }
+
+    }
+
+    class Labo : MapEntity
+    {
+        public Labo(int x, int y) : base(x, y)
+        {
+            AddComponent(new Drawable("Assets/Labo.txt", GetComponent<Position>()));
         }
 
     }
