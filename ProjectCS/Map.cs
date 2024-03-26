@@ -37,6 +37,14 @@ namespace Sakimon.Entities.Map
                             Labo labo = new Labo(x, y);
                             Game.GetInstance().AddMapEntity(labo);
                             break;
+                        case 'P':
+                            Pnj pnj = new Pnj(x, y);
+                            Game.GetInstance().AddMapEntity(pnj);
+                            break;
+                        case 'W':
+                            Water water = new Water(x, y);
+                            Game.GetInstance().AddMapEntity(water);
+                            break;
                     }
                 }
             }
@@ -68,7 +76,6 @@ namespace Sakimon.Entities.Map
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 19, 8));
         }
-
     }
 
     class Labo : MapEntity
@@ -77,7 +84,24 @@ namespace Sakimon.Entities.Map
         {
             AddComponent(new Drawable("Assets/Labo.txt", GetComponent<Position>()));
         }
+    }
 
+    class Pnj : MapEntity
+    {
+        public Pnj(int x, int y) : base(x, y)
+        {
+            AddComponent(new Drawable("Assets/Pnj.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 3, 3));
+        }
+    }
+
+    class Water : MapEntity
+    {
+        public Water(int x, int y) : base(x, y)
+        {
+            AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 2, 1));
+        }
     }
 
 }

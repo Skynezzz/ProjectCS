@@ -3,6 +3,7 @@ using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Utils;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Sakimon.Entities.Player
@@ -14,6 +15,7 @@ namespace Sakimon.Entities.Player
         public const int DOWN = 1;
         public const int LEFT = 2;
         public const int RIGHT = 3;
+        public const int INTERACT = 4;
 
         public Player(int x = 0, int y = 0)
         {
@@ -80,6 +82,25 @@ namespace Sakimon.Entities.Player
             foreach (ConsoleKey key in binds.Keys)
             {
                 if (Game.GetInstance().inputConsoleKey == key) ownPlayer.move(binds[key]);
+            }
+        }
+
+    }
+
+    class Interact : Event
+    {
+        ConsoleKey bind;
+        public Interact() : base()
+        {
+            var bindsFromSettings = Utils.GetDictFromFile("Data/Options.txt");
+
+            bind = (ConsoleKey)int.Parse(bindsFromSettings["interact"][0]);
+        }
+        public override void Update()
+        {
+            if (Game.GetInstance().inputConsoleKey == bind)
+            {
+
             }
         }
     }
