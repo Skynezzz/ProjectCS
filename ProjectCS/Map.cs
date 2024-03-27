@@ -53,6 +53,11 @@ namespace Sakimon.Entities.Map
                             Wall wall = new Wall(x, y);
                             Game.GetInstance().AddMapEntity(wall);
                             break;
+                        case 'E':
+                            Text text = new Text(x, y);
+                            Game.GetInstance().AddMapEntity(text);
+                            break;
+
                     }
                 }
             }
@@ -130,6 +135,14 @@ namespace Sakimon.Entities.Map
         {
             AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 1, 2));
+        }
+    }
+
+    class Text : MapEntity
+    {
+        public Text(int x, int y) : base(x, y, 10, 50)
+        {
+            AddComponent(new Drawable("Assets/Text.txt", GetComponent<Position>()));
         }
     }
 
