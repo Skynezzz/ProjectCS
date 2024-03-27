@@ -108,7 +108,8 @@ namespace Sakimon.Entities.Map
         public Door(int x, int y) : base(x, y, 3, 3)
         {
             AddComponent(new Drawable("Assets/Door.txt", GetComponent<Position>()));
-            Collider collider = new Collider(0, 0, 4, 3);
+            Collider collider = new Collider(0, 0, 3, 3);
+            collider.SetSolid(false);
             collider.SetOnCollisionEvent(new MapEvent("Assets/LaboMap.txt"));
             AddComponent(collider);
         }

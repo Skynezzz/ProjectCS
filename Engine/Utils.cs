@@ -23,13 +23,13 @@ namespace Engine.Utils
             {
                 return null;
             }
-            /*for (int i = 0; i < returnString.Length; i++)
+            for (int i = 0; i < returnString.Length; i++)
             {
                 if (returnString[i] == '\r')
                 {
                     returnString = returnString.Remove(i, 1);
                 }
-            }*/
+            }
             return returnString;
         }
 
@@ -86,11 +86,11 @@ namespace Engine.Utils
             string[] rows = textFromFile.Split('\n');
 
             //int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 8) - 1;
-            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 4) - ((rows[0].Split('[').Length - 1) * 4) - 1;
+            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 4) - ((rows[0].Split('[').Length - 1) * 4);
             GridCase[,]? returnSprite = new GridCase[rows.Length, width];
 
-            ConsoleColor colorCase = ConsoleColor.Black;
-            ConsoleColor colorBg = ConsoleColor.Black;
+            ConsoleColor colorFg = ConsoleColor.Black;
+            ConsoleColor? colorBg = null;
             
             for (int i = 0; i < rows.Length; i++)
             {
@@ -101,15 +101,8 @@ namespace Engine.Utils
                     if (j < row.Length && (char)row[j] == '\r') continue;
                     if ((char)row[j] == '(')
                     {
-                        if ((char)row[j + 1] == ')')
-                        {
-                            j += 1;
-                            backToPos += 2;
-                            continue;
-                        }
-
                         string colorCode = row.Substring(j + 1, 2);
-                        colorCase = (ConsoleColor)int.Parse(colorCode);
+                        colorFg = (ConsoleColor)int.Parse(colorCode);
                         
                         j += 4;
                         backToPos += 4;
@@ -117,15 +110,16 @@ namespace Engine.Utils
 
                     if ((char)row[j] == '[')
                     {
-                        if ((char)row[j + 1] == ']')
-                        {
-                            j += 1;
-                            backToPos += 2;
-                            continue;
-                        }
-
                         string colorCode = row.Substring(j + 1, 2);
-                        colorBg = (ConsoleColor)int.Parse(colorCode);
+
+                        if (colorCode == "NN")
+                        {
+                            colorBg = null;
+                        }
+                        else
+                        {
+                            colorBg = (ConsoleColor)int.Parse(colorCode);
+                        }
 
                         j += 4;
                         backToPos += 4;
@@ -134,7 +128,7 @@ namespace Engine.Utils
                     GridCase gridCase = new GridCase();
                     gridCase.value = row[j];
                     gridCase.bgColor = colorBg;
-                    gridCase.fgColor = colorCase;
+                    gridCase.fgColor = colorFg;
                     returnSprite[i, j - backToPos] = gridCase;
                 }
             }

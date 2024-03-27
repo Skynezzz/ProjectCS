@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Sakimon.Entities.PlayerEntity
+namespace Sakimon.Entities
 {
     class PlayerEntity : Entity
     {
