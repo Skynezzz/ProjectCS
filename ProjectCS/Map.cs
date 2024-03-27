@@ -87,10 +87,10 @@ namespace Sakimon.Entities.Map
 
     class House : MapEntity
     {
-        public House(int x, int y) : base(x, y, 18, 8)
+        public House(int x, int y) : base(x, y, 18, 7)
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 18, 8));
+            AddComponent(new Collider(0, 0, 18, 6));
         }
     }
 
@@ -117,10 +117,10 @@ namespace Sakimon.Entities.Map
 
     class Wall : MapEntity
     {
-        public Wall(int x, int y) : base(x, y, 2, 2)
+        public Wall(int x, int y) : base(x, y, 1, 1)
         {
             AddComponent(new Drawable("Assets/Wall.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 2, 2));
+            AddComponent(new Collider(0, 0, 1, 1));
         }
     }
 

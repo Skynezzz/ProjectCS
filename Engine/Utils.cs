@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -85,8 +86,16 @@ namespace Engine.Utils
 
             string[] rows = textFromFile.Split('\n');
 
-            //int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 8) - 1;
-            int width = rows[0].Length - ((rows[0].Split('(').Length - 1) * 4) - ((rows[0].Split('[').Length - 1) * 4);
+            int width = 0;
+            foreach (var row in rows)
+            {
+                int newWidth = row.Length - ((row.Split('(').Length - 1) * 4) - ((row.Split('[').Length - 1) * 4);
+                if (width < newWidth)
+                {
+                    width = newWidth;
+                }
+            }
+
             GridCase[,]? returnSprite = new GridCase[rows.Length, width];
 
             ConsoleColor colorFg = ConsoleColor.Black;
@@ -96,37 +105,43 @@ namespace Engine.Utils
             {
                 string row = rows[i];
                 int backToPos = 0;
-                for (int j = 0; j < row.Length; j++)
+                for (int j = 0; j - backToPos < width; j++)
                 {
-                    if (j < row.Length && (char)row[j] == '\r') continue;
-                    if ((char)row[j] == '(')
-                    {
-                        string colorCode = row.Substring(j + 1, 2);
-                        colorFg = (ConsoleColor)int.Parse(colorCode);
-                        
-                        j += 4;
-                        backToPos += 4;
-                    }
-
-                    if ((char)row[j] == '[')
-                    {
-                        string colorCode = row.Substring(j + 1, 2);
-
-                        if (colorCode == "NN")
-                        {
-                            colorBg = null;
-                        }
-                        else
-                        {
-                            colorBg = (ConsoleColor)int.Parse(colorCode);
-                        }
-
-                        j += 4;
-                        backToPos += 4;
-                    }
-
                     GridCase gridCase = new GridCase();
-                    gridCase.value = row[j];
+                    if (j < row.Length)
+                    {
+                        if ((char)row[j] == '(')
+                        {
+                            string colorCode = row.Substring(j + 1, 2);
+                            colorFg = (ConsoleColor)int.Parse(colorCode);
+
+                            j += 4;
+                            backToPos += 4;
+                        }
+
+                        if ((char)row[j] == '[')
+                        {
+                            string colorCode = row.Substring(j + 1, 2);
+
+                            if (colorCode == "NN")
+                            {
+                                colorBg = null;
+                            }
+                            else
+                            {
+                                colorBg = (ConsoleColor)int.Parse(colorCode);
+                            }
+
+                            j += 4;
+                            backToPos += 4;
+                        }
+                        gridCase.value = row[j];
+
+                    }
+                    else
+                    {
+                        gridCase.value = ' ';
+                    }
                     gridCase.bgColor = colorBg;
                     gridCase.fgColor = colorFg;
                     returnSprite[i, j - backToPos] = gridCase;

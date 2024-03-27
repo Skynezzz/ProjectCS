@@ -9,14 +9,14 @@ CCCCC                                                                           
 CCCCC                                                                                                                                                                                              CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
 CCCCC                                                                                                                                                                                              CCCCC
-CCCCC                                                                                                                                                                                              CCCCC
-TCCCC                                 H                                                                                                          H                                                 TCCCC
+CCCCC                                 H                                                                                                          H                                                 CCCCC
+TCCCC                                                                                                                                                                                              TCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
+CCCCC                                     D                                                                                                          D                                             CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
-CCCCC                                                                                                                                                                                              CCCCC
-TCCCC                                     D                                                                                                          D                                             TCCCC
+TCCCC                                                                                                                                                                                              TCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                P                                             CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
