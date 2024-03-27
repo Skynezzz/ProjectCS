@@ -235,7 +235,6 @@ namespace Engine
                     Console.ForegroundColor = gridCase.fgColor;
                     Console.Write(gridCase.value);
                 }
-
             }
         }
 

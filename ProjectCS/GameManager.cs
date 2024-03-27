@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sakimon.Entities.Pokemons;
 
 namespace Sakimon
 {
@@ -21,6 +22,8 @@ namespace Sakimon
         private string indexGameState;
 
         public readonly Dictionary<string, Attack> attackList = new();
+        private List<Tuple<string, int>> Pokemons;
+        private Dictionary<string, int> inventory;
 
         public static GameManager GetInstance()
         {
@@ -33,6 +36,12 @@ namespace Sakimon
             game = Game.GetInstance();
             gameStates = new Dictionary<string, Dictionary<string, List<string>>>();
             currentGameStates = new Dictionary<string, List<string>>();
+
+            Dictionary<string, List<String>> save = Utils.GetDictFromFile("Data/Save.txt");
+            for (int i = 0; i < save["pokemons"].Count; i++)
+            {
+                Pokemons.Add(new Tuple<string, int>(save["pokemons"][i], int.Parse(save["pokemons"][i + 1])));
+            }
             InitAttacks();
         }
 
