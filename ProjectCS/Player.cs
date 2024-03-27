@@ -33,7 +33,7 @@ namespace Sakimon.Entities
             base.Update();
         }
 
-        public void move(int direction)
+        public void Move(int direction)
         {
             Collider cCollider = GetComponent<Collider>();
             Position cPosition = GetComponent<Position>();
@@ -81,7 +81,7 @@ namespace Sakimon.Entities
         {
             foreach (ConsoleKey key in binds.Keys)
             {
-                if (Game.GetInstance().inputConsoleKey == key) ownPlayer.move(binds[key]);
+                if (Game.GetInstance().inputConsoleKey == key) ownPlayer.Move(binds[key]);
             }
         }
 

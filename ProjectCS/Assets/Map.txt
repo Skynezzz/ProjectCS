@@ -14,8 +14,8 @@ TCCCC                                                                           
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CTCCC                                                                                                                                                                                              CTCCC
-CCCCC                                     D                                                                                                          D                                             CCCCC
 CCCCC                                                                                                                                                                                              CCCCC
+CCCCC                                     D                                                                                                          D                                             CCCCC
 TCCCC                                                                                                                                                                                              TCCCC
 CCCCC                                                                                                                                                                                              CCCCC
 CCCCC                                                                                                                                                P                                             CCCCC

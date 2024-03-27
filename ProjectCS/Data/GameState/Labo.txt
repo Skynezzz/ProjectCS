@@ -1,0 +1,3 @@
+mapPath:Assets/LaboMap.txt
+difficulty:1
+playerEntity:true
