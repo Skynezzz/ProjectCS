@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sakimon.Entities.Pokemons;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Sakimon
 {
@@ -21,6 +22,7 @@ namespace Sakimon
         private Dictionary<string, List<string>> currentGameStates;
         private string indexGameState;
 
+        Entities.PlayerEntity player;
         public readonly Dictionary<string, Attack> attackList = new();
         private List<Tuple<string, int>> Pokemons;
         private Dictionary<string, int> inventory;
@@ -40,13 +42,15 @@ namespace Sakimon
             Dictionary<string, List<String>> save = Utils.GetDictFromFile("Data/Save.txt");
             for (int i = 0; i < save["pokemons"].Count; i++)
             {
-                Pokemons.Add(new Tuple<string, int>(save["pokemons"][i], int.Parse(save["pokemons"][i + 1])));
+                //Pokemons.Add(new Tuple<string, int>(save["pokemons"][i], int.Parse(save["pokemons"][i + 1])));
             }
             InitAttacks();
         }
 
         public void SetGameState(string state)
         {
+            game.ClearGame();
+            player = null;
             if (gameStates.ContainsKey(state) == false)
             {
                 gameStates[state] = Engine.Utils.Utils.GetDictFromFile("Data/GameState/" + state + ".txt");
@@ -62,7 +66,7 @@ namespace Sakimon
             Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0]));
             if (bool.Parse(currentGameStates["playerEntity"][0]))
             {
-                Entities.PlayerEntity player = new(42, 20);
+                player = new(42, 20);
                 game.AddEntity(player);
             }
         }

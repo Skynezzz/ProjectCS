@@ -96,7 +96,7 @@ namespace Sakimon.Entities.Map
         {
             AddComponent(new Drawable("Assets/Labo.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 18, 7));
-            Door laboDoor = new Door("Data/GameState/Labo.txt", x + 7, y + 6, 4, 1);
+            Door laboDoor = new Door("Labo", x + 7, y + 6, 4, 1);
             Game.GetInstance().AddMapEntity(laboDoor);
         }
     }
@@ -160,7 +160,7 @@ namespace Sakimon.Entities.Map
         public override void Update()
         {
             base.Update();
-            //GameManager.LoadScene(path);
+            GameManager.GetInstance().SetGameState(path);
         }
     }
 }

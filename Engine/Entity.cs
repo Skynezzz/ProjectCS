@@ -264,8 +264,9 @@ namespace Engine.Entities
                 Vector2 ownVectY = new Vector2(position.Y + relativePosition.Y, position.Y + relativePosition.Y + size.Y);
 
                 bool returnBool = false;
+                List<Entity> allEntities = Game.GetInstance().allEntities;
 
-                foreach (var other in Game.GetInstance().allEntities)
+                foreach (var other in allEntities)
                 {
                     Collider? otherCollider = other.GetComponent<Collider>();
                     if (otherCollider == null) continue;

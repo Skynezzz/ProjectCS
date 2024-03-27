@@ -115,6 +115,15 @@ namespace Engine
             }
         }
 
+        public void ClearGame()
+        {
+            ClearAllEntities();
+            ClearEntities();
+            ClearMapEntities();
+            ClearEvents();
+            ClearGrid();
+        }
+
         public void AddAllEntity(Entities.Entity entity)
         {
             allEntities.Add(entity);
