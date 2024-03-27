@@ -1,0 +1,2 @@
+﻿mapPath:Assets/Map.txt
+difficulty:1

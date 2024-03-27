@@ -23,6 +23,13 @@ namespace Engine.Utils
             {
                 return null;
             }
+            /*for (int i = 0; i < returnString.Length; i++)
+            {
+                if (returnString[i] == '\r')
+                {
+                    returnString = returnString.Remove(i, 1);
+                }
+            }*/
             return returnString;
         }
 
@@ -71,10 +78,6 @@ namespace Engine.Utils
 
         public static GridCase[,]? GetSpriteFromFile(string? path)
         {
-            if (path == "Assets/Tree.txt")
-            {
-                int test = 1;
-            }
             if (path == null) return null;
 
             string? textFromFile = GetTextFromFile(path);

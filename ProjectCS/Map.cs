@@ -9,15 +9,18 @@ namespace Sakimon.Entities.Map
 {
     class Map : Entity
     {
-        public Map() 
+        private string path;
+
+        public Map(string pPath) 
         {
+            path = pPath;
             ReadMap();
         }
         public void ReadMap()
         {
-
-            string maptxt = Utils.GetTextFromFile("Assets/Map.txt");
+            string maptxt = Utils.GetTextFromFile(path);
             string[] map = maptxt.Split('\n');
+            Game game = Game.GetInstance();
 
             for (int y = 0; y < map.Length; y++)
             {
@@ -27,23 +30,23 @@ namespace Sakimon.Entities.Map
                     {
                         case 'T':
                             Tree tree = new Tree(x, y);
-                            Game.GetInstance().AddMapEntity(tree);
+                            game.AddMapEntity(tree);
                             break;
                         case 'H':
                             House house = new House(x, y);
-                            Game.GetInstance().AddMapEntity(house);
+                            game.AddMapEntity(house);
                             break;
                         case 'L':
                             Labo labo = new Labo(x, y);
-                            Game.GetInstance().AddMapEntity(labo);
+                            game.AddMapEntity(labo);
                             break;
                         case 'P':
                             Pnj pnj = new Pnj(x, y);
-                            Game.GetInstance().AddMapEntity(pnj);
+                            game.AddMapEntity(pnj);
                             break;
                         case 'W':
                             Water water = new Water(x, y);
-                            Game.GetInstance().AddMapEntity(water);
+                            game.AddMapEntity(water);
                             break;
                     }
                 }
