@@ -2,7 +2,7 @@
 using Engine.Utils;
 using Sakimon.Entities.Attacks;
 using Sakimon.Entities.Map;
-using Sakimon.Entities.PlayerEntity;
+using Sakimon.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +50,12 @@ namespace Sakimon
 
         private void InitEntities()
         {
-            Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0].Remove(currentGameStates["mapPath"][0].Length - 1)));
+            Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0]));
+            if (bool.Parse(currentGameStates["playerEntity"][0]))
+            {
+                Entities.PlayerEntity player = new(44, 21);
+                game.AddEntity(player);
+            }
         }
 
         private void InitAttacks()

@@ -1,10 +1,4 @@
-﻿using Engine;
-using Engine.Utils;
-using Engine.Entities.Components;
-using Sakimon.Entities.PlayerEntity;
-using Sakimon.Entities.Pokemons;
-using Sakimon.Entities.Attacks;
-using Sakimon.Entities.Map;
+﻿using Engine.Utils;
 
 namespace Sakimon
 {
