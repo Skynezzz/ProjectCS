@@ -199,6 +199,7 @@ namespace Engine
                             if (shape[i, j].bgColor == null) shape[i, j].bgColor = gameGrid[(int)pos.Y, (int)pos.X].bgColor;
                             gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
                         }
+                        else if (shape[i, j].bgColor != null) gameGrid[(int)pos.Y, (int)pos.X].bgColor = shape[i, j].bgColor;
                     }
                 }
             }
@@ -222,16 +223,15 @@ namespace Engine
             {
                 Console.SetCursorPosition((int)x, (int)y);
                 Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
+                if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
 
                 if (gridCase.value == ' ')
                 {
-                    if (gameGrid[y, x].bgColor != null) Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
                     Console.ForegroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
                     Console.Write(gameGrid[y, x].value);
                 }
                 else
                 {
-                    if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
                     Console.ForegroundColor = gridCase.fgColor;
                     Console.Write(gridCase.value);
                 }
