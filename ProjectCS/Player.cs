@@ -21,7 +21,7 @@ namespace Sakimon.Entities
         {
             AddComponent(new Position(x, y));
             AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
-            AddComponent(new Collider(new Vector2(0), new Vector2(3)));
+            AddComponent(new Collider(new Vector2(0, 2), new Vector2(3, 1)));
 
             var option = Utils.GetDictFromFile("Data/Options.txt");
             eBinds = new PlayerBinds(this);
