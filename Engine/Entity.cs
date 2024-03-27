@@ -90,7 +90,7 @@ namespace Engine.Entities
                 {
                     if (row.Length > rowMaxSize) rowMaxSize = row.Length;
                 }
-                shape = new GridCase[rowMaxSize, slicedShape.Length];
+                shape = new GridCase[slicedShape.Length, rowMaxSize];
                 GridCase gCase = new GridCase();
                 gCase.fgColor = textColor;
                 gCase.bgColor = textBgColor;
@@ -98,7 +98,7 @@ namespace Engine.Entities
                 {
                     for (int j = 0; j < rowMaxSize; j++)
                     {
-                        if (j < slicedShape.Length)
+                        if (j < slicedShape[i].Length)
                         {
                             gCase.value = (char)slicedShape[i][j];
                         }
@@ -263,6 +263,8 @@ namespace Engine.Entities
                 Vector2 ownVectX = new Vector2(position.X + relativePosition.X, position.X + relativePosition.X + size.X);
                 Vector2 ownVectY = new Vector2(position.Y + relativePosition.Y, position.Y + relativePosition.Y + size.Y);
 
+                bool returnBool = false;
+
                 foreach (var other in Game.GetInstance().allEntities)
                 {
                     Collider? otherCollider = other.GetComponent<Collider>();
@@ -287,10 +289,10 @@ namespace Engine.Entities
                         {
                             otherCollider.onCollisionEvent.Update();
                         }
-                        return otherCollider.IsSolid();
+                        if (otherCollider.IsSolid()) returnBool = true;
                     }
                 }
-                return false;
+                return returnBool;
             }
         }
     }
