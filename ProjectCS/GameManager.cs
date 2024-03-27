@@ -53,7 +53,7 @@ namespace Sakimon
             Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0]));
             if (bool.Parse(currentGameStates["playerEntity"][0]))
             {
-                Entities.PlayerEntity player = new(44, 21);
+                Entities.PlayerEntity player = new(42, 20);
                 game.AddEntity(player);
             }
         }

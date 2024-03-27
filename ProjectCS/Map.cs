@@ -137,7 +137,9 @@ namespace Sakimon.Entities.Map
     {
         public Water(int x, int y) : base(x, y, 1, 2)
         {
-            AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
+            Random random = new Random();
+            if (random.Next(0, 10) == 0) AddComponent(new Drawable("Assets/Wave.txt", GetComponent<Position>()));
+            else AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 1, 2));
         }
     }
