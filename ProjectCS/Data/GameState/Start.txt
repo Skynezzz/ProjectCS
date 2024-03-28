@@ -1,3 +1,4 @@
 ﻿mapPath:Assets/Map.txt
 difficulty:1
 playerEntity:true
+playerPosition:42, 17

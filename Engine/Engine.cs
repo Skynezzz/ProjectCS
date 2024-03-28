@@ -72,8 +72,7 @@ namespace Engine
 
         public void Run()
         {
-            DisplayMap();
-            Display();
+            RefreshDisplay();
             while (running)
             {
                 Event();
@@ -86,9 +85,9 @@ namespace Engine
 
         private void Event()
         {
-            foreach (var iEvent in events)
+            for (int i = 0; i < events.Count; i++)
             {
-                iEvent.Update();
+                events[i].Update();
             }
         }
 
@@ -157,6 +156,12 @@ namespace Engine
         }
 
         // DISPLAY //
+
+        public void RefreshDisplay()
+        {
+            DisplayMap();
+            Display();
+        }
 
         private void DisplayMap()
         {

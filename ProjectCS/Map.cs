@@ -1,6 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Engine;
+﻿using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Utils;
@@ -11,7 +9,7 @@ namespace Sakimon.Entities.Map
     {
         private string path;
 
-        public Map(string pPath) 
+        public Map(string pPath)
         {
             path = pPath;
             ReadMap();
@@ -48,7 +46,7 @@ namespace Sakimon.Entities.Map
                             Water water = new Water(x, y);
                             game.AddMapEntity(water);
                             break;
-                        case 'F':
+                        case 'M':
                             Wall wall = new Wall(x, y);
                             game.AddMapEntity(wall);
                             break;
