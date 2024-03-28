@@ -132,7 +132,9 @@ namespace Sakimon.Entities.Map
     {
         public Bush(int x, int y) : base(x, y, 1, 1)
         {
-            AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
+            Random random = new Random();
+            if (random.Next(0, 5) == 0) AddComponent(new Drawable("Assets/Bush2.txt", GetComponent<Position>()));
+            else AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 1, 1));
         }
     }
