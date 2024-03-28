@@ -135,8 +135,6 @@ namespace Sakimon.Entities.Map
             Random random = new Random();
             if (random.Next(0, 5) == 0) AddComponent(new Drawable("Assets/Bush2.txt", GetComponent<Position>()));
             else AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 1, 1));
-            AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
             Collider collider = new Collider(0, 0, 1, 1);
             collider.SetSolid(false);
             collider.SetOnCollisionEvent(new BushEvent());
