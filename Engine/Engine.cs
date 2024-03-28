@@ -28,6 +28,7 @@ namespace Engine
         private List<Entities.Entity> entities;
         private List<Entities.Entity> mapEntities;
         private Entity? cameraFocusOn;
+        private Entity? dialogue;
 
         // Variables publiques
         public Vector2 gameSize;
@@ -112,6 +113,7 @@ namespace Engine
                     iEntity.Update();
                 }
             }
+            if (dialogue != null) dialogue.GetComponent<Drawable>().Draw();
         }
 
         public void ClearGame()
@@ -282,6 +284,7 @@ namespace Engine
             Console.SetCursorPosition((int)cursorPosition.X, (int)cursorPosition.Y);
         }
 
+        public void SetDialogue(Entity? pDialogue) { dialogue = pDialogue; }
     }
 
     // EVENTS MANAGEMENT //
@@ -291,6 +294,7 @@ namespace Engine
         public Event() { }
 
         public virtual void Update() { }
+        public virtual void Run() { }
     }
 
 }
