@@ -15,18 +15,19 @@ namespace Sakimon.Entities
         public const int DOWN = 1;
         public const int LEFT = 2;
         public const int RIGHT = 3;
-        public const int INTERACT = 4;
+        public static int INTERACT;
 
         public Player(int x, int y)
         {
             AddComponent(new Position(x, y));
 
             var option = Utils.GetDictFromFile("Data/Options.txt");
+            INTERACT = int.Parse(option["interact"][0]);
             eBinds = new PlayerBinds(this);
             Game.GetInstance().AddEvent(eBinds);
         }
 
-        public override void Update() 
+        public virtual void Update() 
         {
             base.Update();
         }
@@ -47,6 +48,11 @@ namespace Sakimon.Entities
         {
             AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
             AddComponent(new Collider(new Vector2(0, 2), new Vector2(3, 1)));
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
 
         public override void Move(int direction)
@@ -79,11 +85,16 @@ namespace Sakimon.Entities
 
     class PlayerCursor : Player
     {
-        Entity? selectedButton;
+        Button? selectedButton;
 
         public PlayerCursor(int x = 0, int y = 0) : base(x, y)
         {
             AddComponent(new Collider(new Vector2(0), new Vector2(1)));
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
 
         public override void Move(int direction)
@@ -100,44 +111,116 @@ namespace Sakimon.Entities
             {
                 case UP:
 
+                    position.Y -= 1;
                     while (cCollider.IsCollidingOn((int)position.X, (int)position.Y) == false)
                     {
-                        position.Y -= 1;
-                        if (position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y)
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
                         {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
                             break;
                         }
                         cPosition.SetPosition(position.X, position.Y - 1);
+                        position.Y -= 1;
                     }
 
                     while (cCollider.IsCollidingOn((int)position.X, (int)position.Y - 1) == true)
                     {
-                        position.Y -= 1;
-                        if (position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y)
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
                         {
-                            cPosition.SetPosition(position.X, position.Y);
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
                             break;
                         }
                         cPosition.SetPosition(position.X, position.Y - 1);
+                        position.Y -= 1;
                     }
-
-                    
 
                     break;
 
                 case DOWN:
-                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == false) cPosition.SetPosition(position.X, position.Y + 1);
+
+                    position.Y += 1;
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y) == false)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X, position.Y + 1);
+                        position.Y += 1;
+                    }
+
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == true)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X, position.Y + 1);
+                        position.Y += 1;
+                    }
+
                     break;
 
                 case LEFT:
-                    if (cCollider.IsCollidingOn((int)position.X - 1, (int)position.Y) == false) cPosition.SetPosition(position.X - 1, position.Y);
+
+                    position.X -= 1;
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y) == false)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X - 1, position.Y);
+                        position.X -= 1;
+                    }
+
+                    while (cCollider.IsCollidingOn((int)position.X - 1, (int)position.Y) == true)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X - 1, position.Y);
+                        position.X -= 1;
+                    }
+
                     break;
 
                 case RIGHT:
-                    if (cCollider.IsCollidingOn((int)position.X + 1, (int)position.Y) == false) cPosition.SetPosition(position.X + 1, position.Y);
+
+                    position.X += 1;
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y) == false)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X + 1, position.Y);
+                        position.X += 1;
+                    }
+
+                    while (cCollider.IsCollidingOn((int)position.X + 1, (int)position.Y) == true)
+                    {
+                        if (!(position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y))
+                        {
+                            cPosition.SetPosition(oldPosition.X, oldPosition.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X + 1, position.Y);
+                        position.X += 1;
+                    }
+
                     break;
+
             }
-            selectedButton = cCollider.GetCollideEntity();
+            if (selectedButton != null) selectedButton.hover = false;
+            selectedButton = (Button)cCollider.GetCollideEntity();
+            if (selectedButton != null) selectedButton.hover = true;
         }
     }
 
