@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sakimon.Entities.Pokemons;
 using Microsoft.VisualBasic.FileIO;
+using Engine.Entities.Components;
+using System.Numerics;
 
 namespace Sakimon
 {
@@ -22,8 +24,9 @@ namespace Sakimon
         private Dictionary<string, List<string>> currentGameStates;
         private string indexGameState;
 
-        Entities.PlayerEntity player;
-        public readonly Dictionary<string, Attack> attackList = new();
+        Entities.PlayerEntity? player;
+        private Dictionary<string, Tuple<int, int>> playerPosition;
+        public readonly Dictionary<string, Attack> attackList;
         private List<Tuple<string, int>> Pokemons;
         private Dictionary<string, int> inventory;
 
@@ -39,6 +42,8 @@ namespace Sakimon
             gameStates = new Dictionary<string, Dictionary<string, List<string>>>();
             currentGameStates = new Dictionary<string, List<string>>();
 
+            playerPosition = new Dictionary<string, Tuple<int, int>>();
+            attackList = new Dictionary<string, Attack>();
             Dictionary<string, List<String>> save = Utils.GetDictFromFile("Data/Save.txt");
             for (int i = 0; i < save["pokemons"].Count; i++)
             {
@@ -50,7 +55,13 @@ namespace Sakimon
         public void SetGameState(string state)
         {
             game.ClearGame();
-            player = null;
+
+            if (player != null)
+            {
+                Vector2 playerPos = player.GetComponent<Position>().GetPosition();
+                playerPosition[indexGameState] = new Tuple<int, int>((int)playerPos.X, (int)playerPos.Y);
+                player = null;
+            }
             if (gameStates.ContainsKey(state) == false)
             {
                 gameStates[state] = Engine.Utils.Utils.GetDictFromFile("Data/GameState/" + state + ".txt");
@@ -58,7 +69,9 @@ namespace Sakimon
             indexGameState = state;
             currentGameStates = gameStates[state];
 
+
             InitEntities();
+            game.RefreshDisplay();
         }
 
         private void InitEntities()
@@ -66,7 +79,8 @@ namespace Sakimon
             Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0]));
             if (bool.Parse(currentGameStates["playerEntity"][0]))
             {
-                player = new(42, 20);
+                if (playerPosition.ContainsKey(indexGameState)) player = new(playerPosition[indexGameState].Item1, playerPosition[indexGameState].Item2);
+                else player = new(int.Parse(currentGameStates["playerPosition"][0]), int.Parse(currentGameStates["playerPosition"][1]));
                 game.AddEntity(player);
             }
         }
@@ -87,6 +101,11 @@ namespace Sakimon
                         )
                     );
             }
+        }
+
+        public void SetPlayerPosition(int x, int y)
+        {
+            //playerPosition = new List<int>(2) { x, y };
         }
     }
 }

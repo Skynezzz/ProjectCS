@@ -264,10 +264,12 @@ namespace Engine.Entities
                 Vector2 ownVectY = new Vector2(position.Y + relativePosition.Y, position.Y + relativePosition.Y + size.Y);
 
                 bool returnBool = false;
-                List<Entity> allEntities = Game.GetInstance().allEntities;
+                Game game = Game.GetInstance();
+                List<Entity> allEntities = game.allEntities;
 
-                foreach (var other in allEntities)
+                for (int i = 0; i < game.allEntities.Count; i++)
                 {
+                    var other = allEntities[i];
                     Collider? otherCollider = other.GetComponent<Collider>();
                     if (otherCollider == null) continue;
                     if (otherCollider == this) continue;
@@ -291,6 +293,7 @@ namespace Engine.Entities
                             otherCollider.onCollisionEvent.Update();
                         }
                         if (otherCollider.IsSolid()) returnBool = true;
+                        if (Game.GetInstance().allEntities.Count == 0) return returnBool;
                     }
                 }
                 return returnBool;
