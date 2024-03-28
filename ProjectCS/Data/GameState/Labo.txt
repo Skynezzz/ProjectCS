@@ -1,4 +1,5 @@
 mapPath:Assets/LaboMap.txt
 difficulty:1
 playerEntity:true
-playerPosition:100, 45
+playerPosition:100,52
+back:72,49,40,1

@@ -58,7 +58,7 @@ namespace Sakimon.Entities.Map
 
     }
 
-    class MapEntity : Entity
+    public class MapEntity : Entity
     {
         public MapEntity(int x, int y, int sx, int sy)
         {
@@ -95,7 +95,7 @@ namespace Sakimon.Entities.Map
         }
     }
 
-    class Door : MapEntity
+    public class Door : MapEntity
     {
         public Door(string path, int x, int y, int w, int h) : base(x, y, w, h)
         {

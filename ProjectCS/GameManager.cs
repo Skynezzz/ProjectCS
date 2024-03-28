@@ -23,6 +23,7 @@ namespace Sakimon
         private Dictionary<string, Dictionary<string, List<string>>> gameStates;
         private Dictionary<string, List<string>> currentGameStates;
         private string indexGameState;
+        private string backIndexGameState;
 
         Entities.PlayerEntity? player;
         private Dictionary<string, Tuple<int, int>> playerPosition;
@@ -66,6 +67,7 @@ namespace Sakimon
             {
                 gameStates[state] = Engine.Utils.Utils.GetDictFromFile("Data/GameState/" + state + ".txt");
             }
+            backIndexGameState = indexGameState;
             indexGameState = state;
             currentGameStates = gameStates[state];
 
@@ -76,12 +78,18 @@ namespace Sakimon
 
         private void InitEntities()
         {
-            Game.GetInstance().AddMapEntity(new Map(currentGameStates["mapPath"][0]));
+            game.AddMapEntity(new Map(currentGameStates["mapPath"][0]));
             if (bool.Parse(currentGameStates["playerEntity"][0]))
             {
                 if (playerPosition.ContainsKey(indexGameState)) player = new(playerPosition[indexGameState].Item1, playerPosition[indexGameState].Item2);
                 else player = new(int.Parse(currentGameStates["playerPosition"][0]), int.Parse(currentGameStates["playerPosition"][1]));
                 game.AddEntity(player);
+            }
+
+            if (currentGameStates.ContainsKey("back"))
+            {
+                List<string> back = currentGameStates["back"];
+                Door exitDoor = new Door(backIndexGameState, int.Parse(back[0]), int.Parse(back[1]), int.Parse(back[2]), int.Parse(back[3]));
             }
         }
 
