@@ -89,6 +89,5 @@ namespace Sakimon.Entities
                 if (Game.GetInstance().inputConsoleKey == key) ownPlayer.Move(binds[key]);
             }
         }
-
     }
 }
