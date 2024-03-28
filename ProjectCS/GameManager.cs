@@ -91,6 +91,14 @@ namespace Sakimon
                 List<string> back = currentGameStates["back"];
                 Door exitDoor = new Door(backIndexGameState, int.Parse(back[0]), int.Parse(back[1]), int.Parse(back[2]), int.Parse(back[3]));
             }
+            if (currentGameStates.ContainsKey("door"))
+            {
+                List<string> doors = currentGameStates["door"];
+                for (int i = 0;  i < doors.Count; i += 5)
+                {
+                    Door exitDoor = new Door(doors[0], int.Parse(doors[1]), int.Parse(doors[2]), int.Parse(doors[3]), int.Parse(doors[4]));
+                }
+            }
         }
 
         private void InitAttacks()
@@ -111,9 +119,11 @@ namespace Sakimon
             }
         }
 
-        public void SetPlayerPosition(int x, int y)
+        public void WalkOnGrass()
         {
-            //playerPosition = new List<int>(2) { x, y };
+            Random random = new Random();
+            if (random.Next(0, 3) != 0) return;
+            SetGameState("GrassFight" + currentGameStates["difficulty"][0]);
         }
     }
 }

@@ -1,0 +1,4 @@
+mapPath:Assets/Fight.txt
+difficulty:1
+playerEntity:false
+ennemi:random
