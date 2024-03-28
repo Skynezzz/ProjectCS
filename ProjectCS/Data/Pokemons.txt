@@ -1,0 +1,2 @@
+pikachu:40,10
+evoli:50,10
