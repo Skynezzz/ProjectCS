@@ -46,6 +46,10 @@ namespace Sakimon.Entities.Map
                             Wall wall = new Wall(x, y);
                             game.AddMapEntity(wall);
                             break;
+                        case 'B':
+                            Bush bush = new Bush(x, y);
+                            game.AddMapEntity(bush);
+                            break;
 
                     }
                 }
@@ -115,12 +119,21 @@ namespace Sakimon.Entities.Map
 
     class Water : MapEntity
     {
-        public Water(int x, int y) : base(x, y, 1, 2)
+        public Water(int x, int y) : base(x, y, 1, 1)
         {
             Random random = new Random();
             if (random.Next(0, 5) == 0) AddComponent(new Drawable("Assets/Wave.txt", GetComponent<Position>()));
             else AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 1, 2));
+            AddComponent(new Collider(0, 0, 1, 1));
+        }
+    }
+
+    class Bush : MapEntity
+    {
+        public Bush(int x, int y) : base(x, y, 1, 1)
+        {
+            AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 1, 1));
         }
     }
 
