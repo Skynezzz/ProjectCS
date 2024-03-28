@@ -1,5 +1,5 @@
 mapPath:Assets/Route1Map.txt
 difficulty:1
 playerEntity:true
-playerPosition:42, 17
+playerPosition:108, 50
 back:95,2,30,1

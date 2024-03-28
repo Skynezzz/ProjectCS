@@ -42,7 +42,7 @@ namespace Sakimon.Entities
         }
     }
 
-    class MarieClaire : PnjEntity
+    public class MarieClaire : PnjEntity
     {
 
         public MarieClaire(int x, int y) : base(x, y)
@@ -53,13 +53,15 @@ namespace Sakimon.Entities
         }
     }
 
-    class Interact : MapEntity
+    public class Interact : MapEntity
     {
         public Interact(PnjEntity pnj, int x, int y, int w, int h) : base(x, y, w, h)
         {
             Collider collider = new Collider(0, 0, w, h);
             collider.SetSolid(false);
-            collider.SetOnCollisionEvent(new PnjEvent(pnj));
+            PnjEvent evt = new PnjEvent(pnj);
+            Game.GetInstance().AddEvent(evt);
+            collider.SetOnCollisionEvent(evt);
             AddComponent(collider);
             //AddComponent(new Drawable(null, GetComponent<Position>()));
             //GetComponent<Drawable>().SetShapeWithString("XXXX");
@@ -82,6 +84,7 @@ namespace Sakimon.Entities
         public override void Update()
         {
             base.Update();
+            if (!talking) return;
             dialogueIndex++;
             if (dialogueIndex >= pnj.dialogues.Count) Game.GetInstance().SetDialogue(null);
             else Game.GetInstance().SetDialogue(pnj.dialogues[dialogueIndex]);

@@ -266,8 +266,9 @@ namespace Engine.Entities
                 bool returnBool = false;
                 Game game = Game.GetInstance();
                 List<Entity> allEntities = game.allEntities;
+                int count = allEntities.Count;
 
-                for (int i = 0; i < game.allEntities.Count; i++)
+                for (int i = 0; i < game.allEntities.Count && count == game.allEntities.Count; i++)
                 {
                     var other = allEntities[i];
                     Collider? otherCollider = other.GetComponent<Collider>();

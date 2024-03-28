@@ -99,6 +99,14 @@ namespace Sakimon
                     Door exitDoor = new Door(doors[0], int.Parse(doors[1]), int.Parse(doors[2]), int.Parse(doors[3]), int.Parse(doors[4]));
                 }
             }
+
+            InitPnjs();
+        }
+
+        private void InitPnjs()
+        {
+            MarieClaire mc = new MarieClaire(10, 10);
+            game.AddMapEntity(mc);
         }
 
         private void InitAttacks()
@@ -122,7 +130,7 @@ namespace Sakimon
         public void WalkOnGrass()
         {
             Random random = new Random();
-            if (random.Next(0, 3) != 0) return;
+            if (random.Next(0, 100) != 0) return;
             SetGameState("GrassFight" + currentGameStates["difficulty"][0]);
         }
     }

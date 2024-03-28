@@ -284,7 +284,11 @@ namespace Engine
             Console.SetCursorPosition((int)cursorPosition.X, (int)cursorPosition.Y);
         }
 
-        public void SetDialogue(Entity? pDialogue) { dialogue = pDialogue; }
+        public void SetDialogue(Entity? pDialogue)
+        {
+            if (dialogue != null) drawBack(dialogue.GetComponent<Position>().GetPosition(), dialogue.GetComponent<Drawable>().GetShape());
+            dialogue = pDialogue;
+        }
     }
 
     // EVENTS MANAGEMENT //

@@ -1,4 +1,5 @@
 ﻿gameState:Start
-team:Pikachu,12,Evoli,6
+team:1,2
 pokemons:Pikachu,12,Evoli,6
 items:Potion,34,SuperPotion,6,Pokeball,12,Superball,2
+position:Bp,42,17
