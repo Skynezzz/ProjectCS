@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Sakimon.Entities.PlayerEntity
+namespace Sakimon.Entities
 {
     class PlayerEntity : Entity
     {
@@ -21,7 +21,7 @@ namespace Sakimon.Entities.PlayerEntity
         {
             AddComponent(new Position(x, y));
             AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
-            AddComponent(new Collider(new Vector2(0), new Vector2(3)));
+            AddComponent(new Collider(new Vector2(0, 2), new Vector2(3, 1)));
 
             var option = Utils.GetDictFromFile("Data/Options.txt");
             eBinds = new PlayerBinds(this);
@@ -33,7 +33,7 @@ namespace Sakimon.Entities.PlayerEntity
             base.Update();
         }
 
-        public void move(int direction)
+        public void Move(int direction)
         {
             Collider cCollider = GetComponent<Collider>();
             Position cPosition = GetComponent<Position>();
@@ -81,7 +81,7 @@ namespace Sakimon.Entities.PlayerEntity
         {
             foreach (ConsoleKey key in binds.Keys)
             {
-                if (Game.GetInstance().inputConsoleKey == key) ownPlayer.move(binds[key]);
+                if (Game.GetInstance().inputConsoleKey == key) ownPlayer.Move(binds[key]);
             }
         }
 

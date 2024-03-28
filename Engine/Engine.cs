@@ -115,6 +115,15 @@ namespace Engine
             }
         }
 
+        public void ClearGame()
+        {
+            ClearAllEntities();
+            ClearEntities();
+            ClearMapEntities();
+            ClearEvents();
+            ClearGrid();
+        }
+
         public void AddAllEntity(Entities.Entity entity)
         {
             allEntities.Add(entity);
@@ -194,7 +203,12 @@ namespace Engine
                     Vector2 pos = new Vector2(position.X + j, position.Y + i);
                     if (pos.X >= 0 && pos.X < gameSize.X && pos.Y >= 0 && pos.Y < gameSize.Y)
                     {
-                        if (shape[i, j].value != ' ') gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
+                        if (shape[i, j].value != ' ')
+                        {
+                            if (shape[i, j].bgColor == null) shape[i, j].bgColor = gameGrid[(int)pos.Y, (int)pos.X].bgColor;
+                            gameGrid[(int)pos.Y, (int)pos.X] = shape[i, j];
+                        }
+                        else if (shape[i, j].bgColor != null) gameGrid[(int)pos.Y, (int)pos.X].bgColor = shape[i, j].bgColor;
                     }
                 }
             }
@@ -217,21 +231,19 @@ namespace Engine
             if (x >= 0 && x < gameSize.X && y >= 0 && y < gameSize.Y)
             {
                 Console.SetCursorPosition((int)x, (int)y);
-                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
+                if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
 
                 if (gridCase.value == ' ')
                 {
-                    if (gameGrid[y, x].bgColor != null) Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].bgColor;
-                    Console.BackgroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
+                    Console.ForegroundColor = (ConsoleColor)gameGrid[y, x].fgColor;
                     Console.Write(gameGrid[y, x].value);
                 }
                 else
                 {
-                    if (gridCase.bgColor != null) Console.BackgroundColor = (ConsoleColor)gridCase.bgColor;
                     Console.ForegroundColor = gridCase.fgColor;
                     Console.Write(gridCase.value);
                 }
-
             }
         }
 

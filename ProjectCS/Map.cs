@@ -9,15 +9,18 @@ namespace Sakimon.Entities.Map
 {
     class Map : Entity
     {
-        public Map() 
+        private string path;
+
+        public Map(string pPath) 
         {
+            path = pPath;
             ReadMap();
         }
         public void ReadMap()
         {
-
-            string maptxt = Utils.GetTextFromFile("Assets/Map.txt");
+            string maptxt = Utils.GetTextFromFile(path);
             string[] map = maptxt.Split('\n');
+            Game game = Game.GetInstance();
 
             for (int y = 0; y < map.Length; y++)
             {
@@ -27,31 +30,27 @@ namespace Sakimon.Entities.Map
                     {
                         case 'T':
                             Tree tree = new Tree(x, y);
-                            Game.GetInstance().AddMapEntity(tree);
+                            game.AddMapEntity(tree);
                             break;
                         case 'H':
                             House house = new House(x, y);
-                            Game.GetInstance().AddMapEntity(house);
+                            game.AddMapEntity(house);
                             break;
                         case 'L':
                             Labo labo = new Labo(x, y);
-                            Game.GetInstance().AddMapEntity(labo);
-                            break;
-                        case 'D':
-                            Door door = new Door(x, y);
-                            Game.GetInstance().AddMapEntity(door);
+                            game.AddMapEntity(labo);
                             break;
                         case 'P':
                             Pnj pnj = new Pnj(x, y);
-                            Game.GetInstance().AddMapEntity(pnj);
+                            game.AddMapEntity(pnj);
                             break;
                         case 'W':
                             Water water = new Water(x, y);
-                            Game.GetInstance().AddMapEntity(water);
+                            game.AddMapEntity(water);
                             break;
                         case 'F':
                             Wall wall = new Wall(x, y);
-                            Game.GetInstance().AddMapEntity(wall);
+                            game.AddMapEntity(wall);
                             break;
 
                     }
@@ -80,30 +79,34 @@ namespace Sakimon.Entities.Map
 
     class House : MapEntity
     {
-        public House(int x, int y) : base(x, y, 18, 8)
+        public House(int x, int y) : base(x, y, 19, 8)
         {
             AddComponent(new Drawable("Assets/House.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 18, 8));
+            AddComponent(new Collider(0, 0, 19, 8));
         }
     }
 
     class Labo : MapEntity
     {
-        public Labo(int x, int y) : base(x, y, 18, 6)
+        public Labo(int x, int y) : base(x, y, 18, 7)
         {
             AddComponent(new Drawable("Assets/Labo.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 18, 6));
+            AddComponent(new Collider(0, 0, 18, 7));
+            Door laboDoor = new Door("Labo", x + 7, y + 6, 4, 1);
+            Game.GetInstance().AddMapEntity(laboDoor);
         }
     }
 
     class Door : MapEntity
     {
-        public Door(int x, int y) : base(x, y, 3, 3)
+        public Door(string path, int x, int y, int w, int h) : base(x, y, w, h)
         {
-            AddComponent(new Drawable("Assets/Door.txt", GetComponent<Position>()));
-            Collider collider = new Collider(0, 0, 4, 3);
-            collider.SetOnCollisionEvent(new MapEvent("Assets/LaboMap.txt"));
+            Collider collider = new Collider(0, 0, w, h);
+            collider.SetSolid(false);
+            collider.SetOnCollisionEvent(new MapEvent(path));
             AddComponent(collider);
+            //AddComponent(new Drawable(null, GetComponent<Position>()));
+            //GetComponent<Drawable>().SetShapeWithString("XXXX");
         }
     }
 
@@ -129,7 +132,9 @@ namespace Sakimon.Entities.Map
     {
         public Water(int x, int y) : base(x, y, 1, 2)
         {
-            AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
+            Random random = new Random();
+            if (random.Next(0, 5) == 0) AddComponent(new Drawable("Assets/Wave.txt", GetComponent<Position>()));
+            else AddComponent(new Drawable("Assets/Water.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 1, 2));
         }
     }
@@ -151,7 +156,7 @@ namespace Sakimon.Entities.Map
         public override void Update()
         {
             base.Update();
-            //GameManager.LoadScene(path);
+            GameManager.GetInstance().SetGameState(path);
         }
     }
 }

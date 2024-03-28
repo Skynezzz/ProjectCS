@@ -1,43 +1,14 @@
-﻿using Engine;
-using Engine.Utils;
-using Engine.Entities.Components;
-using Sakimon.Entities.PlayerEntity;
-using Sakimon.Entities.Pokemons;
-using Sakimon.Entities.Attacks;
-using Sakimon.Entities.Map;
+﻿using Engine.Utils;
 
 namespace Sakimon
 {
     class Sakimon
     {
-        private readonly Dictionary<string, Attack> attackList = new();
-        private readonly Game game;
-
-        private Sakimon()
-        {
-            game = Game.GetInstance();
-
-            InitAttacks();
-            Map map = new();
-            PlayerEntity player = new(50, 20);
-            game.AddEntity(player);
-        }
-
-        private void InitAttacks()
-        {
-            Dictionary<string, List<string>> dictAttack = Utils.GetDictFromFile("Data/Attacks.txt");
-            foreach (var attack in dictAttack)
-            {
-                attackList.Add(attack.Key, new Attack(attack.Key, int.Parse(attack.Value[0]), int.Parse(attack.Value[1]), int.Parse(attack.Value[2])));
-            }
-        }
-
-
         static void Main(string[] args)
         {
-            Sakimon sakimon = new();
-            sakimon.game.Run();
-            
+            GameManager gameManager = GameManager.GetInstance();
+            gameManager.SetGameState(Utils.GetDictFromFile("Data/Save.txt")["gameState"][0]);
+            gameManager.game.Run();
         }
     }
 }
