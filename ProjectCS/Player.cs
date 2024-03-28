@@ -57,6 +57,11 @@ namespace Sakimon.Entities
                     break;
             }
         }
+
+        public void Interact()
+        {
+
+        }
     }
 
     class PlayerBinds : Event
@@ -85,23 +90,5 @@ namespace Sakimon.Entities
             }
         }
 
-    }
-
-    class Interact : Event
-    {
-        ConsoleKey bind;
-        public Interact() : base()
-        {
-            var bindsFromSettings = Utils.GetDictFromFile("Data/Options.txt");
-
-            bind = (ConsoleKey)int.Parse(bindsFromSettings["interact"][0]);
-        }
-        public override void Update()
-        {
-            if (Game.GetInstance().inputConsoleKey == bind)
-            {
-
-            }
-        }
     }
 }

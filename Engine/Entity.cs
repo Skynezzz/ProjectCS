@@ -290,7 +290,7 @@ namespace Engine.Entities
                     {
                         if (otherCollider.onCollisionEvent != null)
                         {
-                            otherCollider.onCollisionEvent.Update();
+                            otherCollider.onCollisionEvent.Run();
                         }
                         if (otherCollider.IsSolid()) returnBool = true;
                         if (Game.GetInstance().allEntities.Count == 0) return returnBool;

@@ -38,10 +38,6 @@ namespace Sakimon.Entities.Map
                             Labo labo = new Labo(x, y);
                             game.AddMapEntity(labo);
                             break;
-                        case 'P':
-                            Pnj pnj = new Pnj(x, y);
-                            game.AddMapEntity(pnj);
-                            break;
                         case 'W':
                             Water water = new Water(x, y);
                             game.AddMapEntity(water);
@@ -117,15 +113,6 @@ namespace Sakimon.Entities.Map
         }
     }
 
-    class Pnj : MapEntity
-    {
-        public Pnj(int x, int y) : base(x, y, 3, 3)
-        {
-            AddComponent(new Drawable("Assets/Pnj.txt", GetComponent<Position>()));
-            AddComponent(new Collider(0, 0, 3, 3));
-        }
-    }
-
     class Water : MapEntity
     {
         public Water(int x, int y) : base(x, y, 1, 2)
@@ -137,23 +124,16 @@ namespace Sakimon.Entities.Map
         }
     }
 
-    class Text : MapEntity
-    {
-        public Text(int x, int y) : base(x, y, 10, 50)
-        {
-            AddComponent(new Drawable("Assets/Text.txt", GetComponent<Position>()));
-        }
-    }
-
     class MapEvent : Event
     {
         private string path;
 
         public MapEvent(string pPath) { path = pPath; }
 
-        public override void Update()
+        public override void Update() { base.Update(); }
+        public override void Run()
         {
-            base.Update();
+            base.Run();
             GameManager.GetInstance().SetGameState(path);
         }
     }
