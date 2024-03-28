@@ -13,7 +13,7 @@ namespace Sakimon.Entities
             AddComponent(new Position(x, y));
             AddComponent(new Drawable("Assets/Pnj.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 3, 3));
-            Dialogue dialogue = new Dialogue(text, x, y);
+            //Dialogue dialogue = new Dialogue(, x, y);
         }
     }
 
