@@ -1,24 +1,22 @@
 using Engine;
 using Engine.Entities;
 using Engine.Entities.Components;
-using Sakimon;
+using Engine.Utils;
+using Sakimon.Entities.Map;
 using Sakimon.Entities.Attacks;
-using System.Numerics;
 
 namespace Sakimon.Entities.Pokemons
 {
-    class Pokemon : Entity
+    class PokemonEntity : Entity
     {
         public readonly List<Attack?> attackList;
 
-        public Pokemon()
+        public PokemonEntity(int x, int y)
         {
             attackList = new List<Attack?>(4);
-
-            AddComponent(new Position(20, 10));
-            AddComponent(new Drawable("Assets/Pikachu.txt", GetComponent<Position>()));
-            AddComponent(new AliveEntity(100));
-            AddComponent(new Collider(new Vector2(0), new Vector2(3)));
+            AddComponent(new Position(x, y));
+            Drawable drawable = new Drawable("", GetComponent<Position>());
+            AddComponent(drawable);
         }
 
         public void AddAttack(Attack attack, int index = 0)
@@ -41,5 +39,22 @@ namespace Sakimon.Entities.Pokemons
             }
             return returnList;
         }
+
+        public class Pikachu : PokemonEntity
+        {
+            public Pikachu(int x, int y) : base(x, y)
+        
+            {
+                AddComponent(new Position(x, y));
+                Drawable drawable = new Drawable("Assets/Pikachu.txt", GetComponent<Position>());
+                AddComponent(drawable);
+            }
+            
+        }
+
+
+
+
+
     }
 }

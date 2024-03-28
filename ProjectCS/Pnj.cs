@@ -68,11 +68,11 @@ namespace Sakimon.Entities
         }
     }
 
-    class PnjEvent : Event
+    public class PnjEvent : Event
     {
         private PnjEntity pnj;
         private int dialogueIndex;
-        private bool talking = false;
+        public bool talking = false;
 
         public PnjEvent(PnjEntity pPnj) { pnj = pPnj; }
 

@@ -2,6 +2,7 @@
 using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Utils;
+using Sakimon.Entities;
 
 namespace Sakimon.Entities.Map
 {

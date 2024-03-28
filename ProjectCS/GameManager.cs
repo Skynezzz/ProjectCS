@@ -103,6 +103,9 @@ namespace Sakimon
             if (currentGameStates.ContainsKey("ennemi"))
             {
                 string ennemi = currentGameStates["ennemi"][0];
+                Dictionary<string, List<string>> pokemonData = Utils.GetDictFromFile("Data/Pokemons.txt");
+                PokemonEntity ennemiPokemon = new PokemonEntity(12, 148);
+                game.AddEntity(ennemiPokemon);
             }
 
             InitPnjs();
