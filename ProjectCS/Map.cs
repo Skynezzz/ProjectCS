@@ -53,10 +53,6 @@ namespace Sakimon.Entities.Map
                             Wall wall = new Wall(x, y);
                             Game.GetInstance().AddMapEntity(wall);
                             break;
-                        case 'E':
-                            Text text = new Text(x, y);
-                            Game.GetInstance().AddMapEntity(text);
-                            break;
 
                     }
                 }
