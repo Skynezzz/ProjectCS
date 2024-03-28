@@ -50,7 +50,10 @@ namespace Sakimon.Entities.Map
                             Bush bush = new Bush(x, y);
                             game.AddMapEntity(bush);
                             break;
-
+                        case 'D':
+                            TextBox textbox = new TextBox(x, y);
+                            game.AddMapEntity(textbox);
+                            break;
                     }
                 }
             }
@@ -114,6 +117,15 @@ namespace Sakimon.Entities.Map
         {
             AddComponent(new Drawable("Assets/Wall.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 2, 2));
+        }
+    }
+
+    class TextBox : MapEntity
+    {
+        public TextBox(int x, int y) : base(x, y, 12, 202)
+        {
+            AddComponent(new Drawable("Assets/TextBox.txt", GetComponent<Position>()));
+            AddComponent(new Collider(0, 0, 12, 202));
         }
     }
 

@@ -100,6 +100,11 @@ namespace Sakimon
                 }
             }
 
+            if (currentGameStates.ContainsKey("ennemi"))
+            {
+                string ennemi = currentGameStates["ennemi"][0];
+            }
+
             InitPnjs();
         }
 
