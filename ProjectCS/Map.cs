@@ -136,6 +136,11 @@ namespace Sakimon.Entities.Map
             if (random.Next(0, 5) == 0) AddComponent(new Drawable("Assets/Bush2.txt", GetComponent<Position>()));
             else AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
             AddComponent(new Collider(0, 0, 1, 1));
+            AddComponent(new Drawable("Assets/Bush.txt", GetComponent<Position>()));
+            Collider collider = new Collider(0, 0, 1, 1);
+            collider.SetSolid(false);
+            collider.SetOnCollisionEvent(new BushEvent());
+            AddComponent(collider);
         }
     }
 
@@ -150,6 +155,19 @@ namespace Sakimon.Entities.Map
         {
             base.Run();
             GameManager.GetInstance().SetGameState(path);
+        }
+    }
+
+    class BushEvent : Event
+    {
+
+        public BushEvent() { }
+
+        public override void Update() { base.Update(); }
+        public override void Run()
+        {
+            base.Run();
+            GameManager.GetInstance().WalkOnGrass();
         }
     }
 }

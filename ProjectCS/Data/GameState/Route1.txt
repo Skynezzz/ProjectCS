@@ -1,5 +1,5 @@
-﻿mapPath:Assets/Map.txt
+mapPath:Assets/Route1Map.txt
 difficulty:1
 playerEntity:true
 playerPosition:42, 17
-door:route1,95,2,30,1
+back:95,2,30,1
