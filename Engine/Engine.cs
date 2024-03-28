@@ -21,7 +21,7 @@ namespace Engine
         private static Game gameInstance;
 
         // Variables privées
-        private bool running;
+        public bool running;
         private GridCase[,] gameGrid;
         private List<Event> events;
         public List<Entities.Entity> allEntities {  get; private set; }

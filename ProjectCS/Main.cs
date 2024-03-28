@@ -7,7 +7,7 @@ namespace Sakimon
         static void Main(string[] args)
         {
             GameManager gameManager = GameManager.GetInstance();
-            gameManager.SetGameState(Utils.GetDictFromFile("Data/Save.txt")["gameState"][0]);
+            gameManager.SetGameState("Lunch");
             gameManager.game.Run();
         }
     }

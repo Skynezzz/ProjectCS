@@ -25,7 +25,7 @@ namespace Sakimon
         private string indexGameState;
         private string backIndexGameState;
 
-        Entities.PlayerEntity? player;
+        Entities.Player? player;
         private Dictionary<string, Tuple<int, int>> playerPosition;
         public readonly Dictionary<string, Attack> attackList;
         private List<Tuple<string, int>> Pokemons;
@@ -79,10 +79,17 @@ namespace Sakimon
         private void InitEntities()
         {
             game.AddMapEntity(new Map(currentGameStates["mapPath"][0]));
+
             if (bool.Parse(currentGameStates["playerEntity"][0]))
             {
-                if (playerPosition.ContainsKey(indexGameState)) player = new(playerPosition[indexGameState].Item1, playerPosition[indexGameState].Item2);
-                else player = new(int.Parse(currentGameStates["playerPosition"][0]), int.Parse(currentGameStates["playerPosition"][1]));
+                if (playerPosition.ContainsKey(indexGameState)) player = new PlayerEntity(playerPosition[indexGameState].Item1, playerPosition[indexGameState].Item2);
+                else player = new PlayerEntity(int.Parse(currentGameStates["playerPosition"][0]), int.Parse(currentGameStates["playerPosition"][1]));
+                game.AddEntity(player);
+            }
+            else
+            {
+                if (playerPosition.ContainsKey(indexGameState)) player = new PlayerCursor(playerPosition[indexGameState].Item1, playerPosition[indexGameState].Item2);
+                else player = new PlayerCursor(int.Parse(currentGameStates["playerPosition"][0]), int.Parse(currentGameStates["playerPosition"][1]));
                 game.AddEntity(player);
             }
 
@@ -91,6 +98,7 @@ namespace Sakimon
                 List<string> back = currentGameStates["back"];
                 Door exitDoor = new Door(backIndexGameState, int.Parse(back[0]), int.Parse(back[1]), int.Parse(back[2]), int.Parse(back[3]));
             }
+
             if (currentGameStates.ContainsKey("door"))
             {
                 List<string> doors = currentGameStates["door"];
@@ -109,12 +117,37 @@ namespace Sakimon
             }
 
             InitPnjs();
+            InitButtons();
         }
 
         private void InitPnjs()
         {
-            MarieClaire mc = new MarieClaire(10, 10);
-            game.AddMapEntity(mc);
+        }
+
+        private void InitButtons()
+        {
+            if (currentGameStates.ContainsKey("button") == false) return;
+            for (int i = 0; i < currentGameStates["button"].Count; i++)
+            {
+                Button button = new Button(currentGameStates["button"][i], 10, 5 + i * 2, 5, 1);
+                Event buttonEvent = new();
+                switch (currentGameStates["button"][i])
+                {
+                    case "start":
+                        buttonEvent = new StartEvent(button);
+                        button.SetEvent(buttonEvent);
+                        break;
+                        
+                    case "exit":
+                        buttonEvent = new ExitEvent(button);
+                        button.SetEvent(buttonEvent);
+                        break;
+
+
+                }
+                game.AddMapEntity(button);
+                game.AddEvent(buttonEvent);
+            }
         }
 
         private void InitAttacks()

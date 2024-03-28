@@ -299,6 +299,42 @@ namespace Engine.Entities
                 }
                 return returnBool;
             }
+
+            public Entity? GetCollideEntity()
+            {
+                Vector2 position = entity.GetComponent<Position>().GetPosition();
+
+                Vector2 ownVectX = new Vector2(position.X + relativePosition.X, position.X + relativePosition.X + size.X);
+                Vector2 ownVectY = new Vector2(position.Y + relativePosition.Y, position.Y + relativePosition.Y + size.Y);
+
+                bool returnBool = false;
+                Game game = Game.GetInstance();
+                List<Entity> allEntities = game.allEntities;
+                int count = allEntities.Count;
+
+                for (int i = 0; i < game.allEntities.Count && count == game.allEntities.Count; i++)
+                {
+                    var other = allEntities[i];
+                    Collider? otherCollider = other.GetComponent<Collider>();
+                    if (otherCollider == null) continue;
+                    if (otherCollider == this) continue;
+
+                    Position? otherPosition = other.GetComponent<Position>();
+                    if (otherPosition == null) continue;
+
+                    Vector2 oPosition = otherPosition.GetPosition();
+                    Vector2 oRelativePosition = otherCollider.GetRelativePosition();
+
+                    if (IsCollidingTwoRect
+                        (
+                        ownVectX,
+                        ownVectY,
+                        new Vector2(oPosition.X + oRelativePosition.X, oPosition.X + oRelativePosition.X + otherCollider.GetSize().X),
+                        new Vector2(oPosition.Y + oRelativePosition.Y, oPosition.Y + oRelativePosition.Y + otherCollider.GetSize().Y)
+                        )) return other;
+                }
+                return null;
+            }
         }
     }
 }
