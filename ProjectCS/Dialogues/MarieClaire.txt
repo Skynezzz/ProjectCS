@@ -1,5 +1,3 @@
-Hello World !
-Prout
-grosse queue
-bite
-zob
+Bonjour !
+Le proffesseur t'attend au Labo pour te donner ton 1er Pokemon.
+je me demande le quel tu choisira entre les deux.
