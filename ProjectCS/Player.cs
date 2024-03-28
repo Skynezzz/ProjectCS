@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Sakimon.Entities
 {
-    class PlayerEntity : Entity
+    class Player : Entity
     {
         PlayerBinds eBinds;
         public const int UP = 0;
@@ -17,11 +17,9 @@ namespace Sakimon.Entities
         public const int RIGHT = 3;
         public const int INTERACT = 4;
 
-        public PlayerEntity(int x = 0, int y = 0)
+        public Player(int x, int y)
         {
             AddComponent(new Position(x, y));
-            AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
-            AddComponent(new Collider(new Vector2(0, 2), new Vector2(3, 1)));
 
             var option = Utils.GetDictFromFile("Data/Options.txt");
             eBinds = new PlayerBinds(this);
@@ -33,8 +31,28 @@ namespace Sakimon.Entities
             base.Update();
         }
 
-        public void Move(int direction)
+        public virtual void Move(int direction)
         {
+        }
+
+        public void Interact()
+        {
+
+        }
+    }
+
+    class PlayerEntity : Player
+    {
+        public PlayerEntity(int x = 0, int y = 0) : base(x, y)
+        {
+            AddComponent(new Drawable("Assets/Player.txt", GetComponent<Position>()));
+            AddComponent(new Collider(new Vector2(0, 2), new Vector2(3, 1)));
+        }
+
+        public override void Move(int direction)
+        {
+            base.Move(direction);
+
             Collider cCollider = GetComponent<Collider>();
             Position cPosition = GetComponent<Position>();
             Vector2 position = cPosition.GetPosition();
@@ -57,29 +75,88 @@ namespace Sakimon.Entities
                     break;
             }
         }
+    }
 
-        public void Interact()
+    class PlayerCursor : Player
+    {
+        Entity? selectedButton;
+
+        public PlayerCursor(int x = 0, int y = 0) : base(x, y)
         {
+            AddComponent(new Collider(new Vector2(0), new Vector2(1)));
+        }
 
+        public override void Move(int direction)
+        {
+            base.Move(direction);
+
+            Game game = Game.GetInstance();
+
+            Collider cCollider = GetComponent<Collider>();
+            Position cPosition = GetComponent<Position>();
+            Vector2 position = cPosition.GetPosition();
+            Vector2 oldPosition = cPosition.GetPosition();
+            switch (direction)
+            {
+                case UP:
+
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y) == false)
+                    {
+                        position.Y -= 1;
+                        if (position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y)
+                        {
+                            break;
+                        }
+                        cPosition.SetPosition(position.X, position.Y - 1);
+                    }
+
+                    while (cCollider.IsCollidingOn((int)position.X, (int)position.Y - 1) == true)
+                    {
+                        position.Y -= 1;
+                        if (position.X >= 0 && position.X < game.gameSize.X && position.Y >= 0 && position.Y < game.gameSize.Y)
+                        {
+                            cPosition.SetPosition(position.X, position.Y);
+                            break;
+                        }
+                        cPosition.SetPosition(position.X, position.Y - 1);
+                    }
+
+                    
+
+                    break;
+
+                case DOWN:
+                    if (cCollider.IsCollidingOn((int)position.X, (int)position.Y + 1) == false) cPosition.SetPosition(position.X, position.Y + 1);
+                    break;
+
+                case LEFT:
+                    if (cCollider.IsCollidingOn((int)position.X - 1, (int)position.Y) == false) cPosition.SetPosition(position.X - 1, position.Y);
+                    break;
+
+                case RIGHT:
+                    if (cCollider.IsCollidingOn((int)position.X + 1, (int)position.Y) == false) cPosition.SetPosition(position.X + 1, position.Y);
+                    break;
+            }
+            selectedButton = cCollider.GetCollideEntity();
         }
     }
 
     class PlayerBinds : Event
     {
-        PlayerEntity ownPlayer;
+        Player ownPlayer;
         private Dictionary<ConsoleKey, int> binds;
 
-        public PlayerBinds(PlayerEntity pOwnPlayer) : base()
+        public PlayerBinds(Player pOwnPlayer) : base()
         {
             ownPlayer = pOwnPlayer;
 
             var bindsFromSettings = Utils.GetDictFromFile("Data/Options.txt");
 
             binds = new();
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["up"][0]), PlayerEntity.UP);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["down"][0]), PlayerEntity.DOWN);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["left"][0]), PlayerEntity.LEFT);
-            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["right"][0]), PlayerEntity.RIGHT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["up"][0]), Player.UP);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["down"][0]), Player.DOWN);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["left"][0]), Player.LEFT);
+            binds.Add((ConsoleKey)int.Parse(bindsFromSettings["right"][0]), Player.RIGHT);
         }
 
         public override void Update()
