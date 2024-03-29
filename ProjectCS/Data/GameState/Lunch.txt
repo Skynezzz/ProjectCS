@@ -1,4 +1,4 @@
 ﻿mapPath:Assets/MainMenu.txt
 playerEntity:false
 playerPosition:10, 1
-button:start,start,start,start,exit
+button:start,exit

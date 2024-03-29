@@ -80,6 +80,7 @@ namespace Engine
                 Update();
                 inputConsoleKey = Console.ReadKey(true).Key;
             }
+            Console.Clear();
         }
 
         // EVENTS MANAGEMENT //

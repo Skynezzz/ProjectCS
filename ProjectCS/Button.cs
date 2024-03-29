@@ -57,15 +57,16 @@ namespace Sakimon.Entities
         Button button;
         public StartEvent(Button pButton) : base() { button = pButton; }
 
-        public override void Update() { button.Update(); }
+        public override void Update()
+        {
+            button.Update();
+
+            if (button.hover && Game.GetInstance().inputConsoleKey == (ConsoleKey)Player.INTERACT) GameManager.GetInstance().SetGameState(Utils.GetDictFromFile("Data/Save.txt")["gameState"][0]);
+        }
 
         public override void Run()
         {
             base.Run();
-
-            ConsoleKey? game = Game.GetInstance().inputConsoleKey;
-            ConsoleKey player = (ConsoleKey)Player.INTERACT;
-            if (Game.GetInstance().inputConsoleKey == (ConsoleKey)Player.INTERACT) GameManager.GetInstance().SetGameState(Utils.GetDictFromFile("Data/Save.txt")["gameState"][0]);
         }
     }
     
@@ -75,13 +76,16 @@ namespace Sakimon.Entities
 
         public ExitEvent(Button pButton) : base() { button = pButton; }
 
-        public override void Update() { button.Update(); }
+        public override void Update()
+        {
+            button.Update();
+
+            if (button.hover && Game.GetInstance().inputConsoleKey == (ConsoleKey)Player.INTERACT) Game.GetInstance().running = false;
+        }
 
         public override void Run()
         {
             base.Run();
-
-            if (Game.GetInstance().inputConsoleKey == (ConsoleKey)Player.INTERACT) Game.GetInstance().running = false;
         }
     }
 }

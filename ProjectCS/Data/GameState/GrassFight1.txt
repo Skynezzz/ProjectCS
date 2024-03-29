@@ -1,4 +1,5 @@
 mapPath:Assets/Fight.txt
 difficulty:1
 playerEntity:false
+playerPosition:10, 1
 ennemi:pikachu
